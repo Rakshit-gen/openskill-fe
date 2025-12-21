@@ -76,7 +76,7 @@ sudo mv build/openskill /usr/local/bin/`,
   },
 };
 
-function CodeBlock({ code }: { code: string }) {
+function CodeBlock({ code, className }: { code: string; className?: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -86,8 +86,8 @@ function CodeBlock({ code }: { code: string }) {
   };
 
   return (
-    <div className="relative group">
-      <pre className="bg-[#0A0A0F] border border-[#2A2A38] rounded-lg p-4 overflow-x-auto">
+    <div className="relative overflow-hidden group">
+      <pre className={`bg-[#0A0A0F] border border-[#2A2A38] rounded-lg p-4 overflow-hidden ${className}`}>
         <code className="text-sm font-mono text-[#F5F5F0] whitespace-pre">{code}</code>
       </pre>
       <button
@@ -110,7 +110,7 @@ function StepCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 overflow-hidden">
       <div className="flex-shrink-0">
         <div className="w-10 h-10 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold">
           {number}
@@ -142,145 +142,153 @@ export default function InstallPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0A0A0F] relative">
-      <div className="absolute inset-0 grid-pattern opacity-30" />
+    <div className="min-h-screen bg-[#0A0A0F] flex flex-col overflow-x-hidden">
+      {/* Background grid pattern - fixed position with proper containment */}
+      <div
+        className="fixed inset-0 grid-pattern opacity-30 pointer-events-none"
+        style={{ width: '100vw', height: '100vh' }}
+        aria-hidden="true"
+      />
+
       <Navbar />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-16">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <Badge className="mb-4 bg-[#2A2A38] text-[#00D9A5]">
-            Quick Setup
-          </Badge>
-          <h1 className="text-4xl sm:text-5xl font-bold text-[#F5F5F0] mb-4">
-            Install OpenSkill
-          </h1>
-          <p className="text-xl text-[#8B8B9E] max-w-2xl mx-auto">
-            Get up and running in under a minute. Choose your platform and follow the steps below.
-          </p>
-          {detectedPlatform && (
-            <p className="text-sm text-[#8B8B9E] mt-4">
-              Detected: <span className="text-[#FF6B35]">{detectedPlatform}</span>
+      <main className="relative z-10 flex-1">
+        <div className="max-w-4xl mx-auto px-6 py-16">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-[#2A2A38] text-[#00D9A5]">
+              Quick Setup
+            </Badge>
+            <h1 className="text-4xl sm:text-5xl font-bold text-[#F5F5F0] mb-4">
+              Install OpenSkill
+            </h1>
+            <p className="text-xl text-[#8B8B9E] max-w-2xl mx-auto">
+              Get up and running in under a minute. Choose your platform and follow the steps below.
             </p>
-          )}
-        </div>
-
-        {/* Platform Selector */}
-        <div className="mb-12">
-          <h2 className="text-lg font-semibold text-[#F5F5F0] mb-4 text-center">Select Your Platform</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {(Object.keys(platformData) as Platform[]).map((key) => (
-              <button
-                key={key}
-                onClick={() => setPlatform(key)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
-                  platform === key
-                    ? "bg-[#FF6B35] text-[#0A0A0F]"
-                    : "bg-[#1A1A24] border border-[#2A2A38] text-[#8B8B9E] hover:text-[#F5F5F0] hover:border-[#FF6B35]"
-                }`}
-              >
-                {platformData[key].icon}
-                <span className="text-sm font-medium">{platformData[key].label}</span>
-              </button>
-            ))}
+            {detectedPlatform && (
+              <p className="text-sm text-[#8B8B9E] mt-4">
+                Detected: <span className="text-[#FF6B35]">{detectedPlatform}</span>
+              </p>
+            )}
           </div>
-        </div>
 
-        {/* Installation Steps */}
-        <Card className="bg-[#1A1A24] border-[#2A2A38] mb-12">
-          <CardContent className="p-8">
-            <div className="space-y-2">
-              <StepCard number={1} title="Download & Install">
-                <p className="text-[#8B8B9E] mb-4">
-                  Run the following command in your terminal:
-                </p>
-                <CodeBlock code={platformData[platform].command} />
-              </StepCard>
-
-              <StepCard number={2} title="Get Groq API Key">
-                <p className="text-[#8B8B9E] mb-4">
-                  OpenSkill uses Groq for AI-powered skill generation. Get your free API key:
-                </p>
-                <ol className="list-decimal list-inside text-[#8B8B9E] space-y-2 mb-4">
-                  <li>Visit <a href="https://console.groq.com" target="_blank" rel="noopener noreferrer" className="text-[#FF6B35] hover:underline">console.groq.com</a></li>
-                  <li>Create a free account</li>
-                  <li>Generate an API key from the dashboard</li>
-                </ol>
-                <Button
-                  className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
-                  onClick={() => window.open("https://console.groq.com", "_blank")}
+          {/* Platform Selector */}
+          <div className="mb-12">
+            <h2 className="text-lg font-semibold text-[#F5F5F0] mb-4 text-center">Select Your Platform</h2>
+            <div className="flex flex-wrap justify-center gap-3">
+              {(Object.keys(platformData) as Platform[]).map((key) => (
+                <button
+                  key={key}
+                  onClick={() => setPlatform(key)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                    platform === key
+                      ? "bg-[#FF6B35] text-[#0A0A0F]"
+                      : "bg-[#1A1A24] border border-[#2A2A38] text-[#8B8B9E] hover:text-[#F5F5F0] hover:border-[#FF6B35]"
+                  }`}
                 >
-                  Get Free API Key
-                </Button>
-              </StepCard>
-
-              <StepCard number={3} title="Configure Environment">
-                <p className="text-[#8B8B9E] mb-4">
-                  Set your Groq API key as an environment variable:
-                </p>
-                <CodeBlock code={`export GROQ_API_KEY=your_key_here`} />
-                <p className="text-[#8B8B9E] text-sm mt-4">
-                  Add this line to your shell profile (<code className="text-[#FF6B35]">~/.bashrc</code>, <code className="text-[#FF6B35]">~/.zshrc</code>) for persistence.
-                </p>
-              </StepCard>
-
-              <StepCard number={4} title="Verify Installation">
-                <p className="text-[#8B8B9E] mb-4">
-                  Test that OpenSkill is installed correctly:
-                </p>
-                <CodeBlock code={`openskill --help`} />
-              </StepCard>
+                  {platformData[key].icon}
+                  <span className="text-sm font-medium">{platformData[key].label}</span>
+                </button>
+              ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Quick Start */}
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Ready to Create Your First Skill?</h2>
-          <p className="text-[#8B8B9E] mb-6">
-            Once installed, try creating your first AI-powered skill:
-          </p>
-          <CodeBlock code={`openskill add "code-review" -d "Reviews code for best practices"`} />
-          <div className="mt-8 flex justify-center gap-4">
-            <Button
-              variant="outline"
-              className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24]"
-              onClick={() => window.location.href = "/docs"}
-            >
-              Read Documentation
-            </Button>
-            <Button
-              className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
-              onClick={() => window.open("https://github.com/rakshit-gen/openskill", "_blank")}
-            >
-              View on GitHub
-            </Button>
+          {/* Installation Steps */}
+          <Card className="bg-[#1A1A24] border-[#2A2A38] mb-12">
+            <CardContent className="p-8">
+              <div className="space-y-2">
+                <StepCard number={1} title="Download & Install">
+                  <p className="text-[#8B8B9E] mb-4">
+                    Run the following command in your terminal:
+                  </p>
+                  <CodeBlock code={platformData[platform].command} />
+                </StepCard>
+
+                <StepCard number={2} title="Get Groq API Key">
+                  <p className="text-[#8B8B9E] mb-4">
+                    OpenSkill uses Groq for AI-powered skill generation. Get your free API key:
+                  </p>
+                  <ol className="list-decimal list-inside text-[#8B8B9E] space-y-2 mb-4">
+                    <li>Visit <a href="https://console.groq.com" target="_blank" rel="noopener noreferrer" className="text-[#FF6B35] hover:underline">console.groq.com</a></li>
+                    <li>Create a free account</li>
+                    <li>Generate an API key from the dashboard</li>
+                  </ol>
+                  <Button
+                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
+                    onClick={() => window.open("https://console.groq.com", "_blank")}
+                  >
+                    Get Free API Key
+                  </Button>
+                </StepCard>
+
+                <StepCard number={3} title="Configure Environment">
+                  <p className="text-[#8B8B9E] mb-4">
+                    Set your Groq API key as an environment variable:
+                  </p>
+                  <CodeBlock code={`export GROQ_API_KEY=your_key_here`} />
+                  <p className="text-[#8B8B9E] text-sm mt-4">
+                    Add this line to your shell profile (<code className="text-[#FF6B35]">~/.bashrc</code>, <code className="text-[#FF6B35]">~/.zshrc</code>) for persistence.
+                  </p>
+                </StepCard>
+
+                <StepCard number={4} title="Verify Installation">
+                  <p className="text-[#8B8B9E] mb-4">
+                    Test that OpenSkill is installed correctly:
+                  </p>
+                  <CodeBlock code={`openskill --help`} />
+                </StepCard>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Quick Start */}
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Ready to Create Your First Skill?</h2>
+            <p className="text-[#8B8B9E] mb-6">
+              Once installed, try creating your first AI-powered skill:
+            </p>
+            <CodeBlock code={`openskill add "code-review" -d "Reviews code for best practices"`} />
+            <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <Button
+                variant="outline"
+                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24]"
+                onClick={() => window.location.href = "/docs"}
+              >
+                Read Documentation
+              </Button>
+              <Button
+                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
+                onClick={() => window.open("https://github.com/rakshit-gen/openskill", "_blank")}
+              >
+                View on GitHub
+              </Button>
+            </div>
+          </div>
+
+          {/* Requirements */}
+          <div className="mt-16 p-6 bg-[#1A1A24] border border-[#2A2A38] rounded-lg">
+            <h3 className="text-lg font-semibold text-[#F5F5F0] mb-4">Requirements</h3>
+            <ul className="space-y-2 text-[#8B8B9E]">
+              <li className="flex items-center gap-2">
+                <CheckIcon />
+                <span>macOS or Linux operating system</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckIcon />
+                <span>Terminal access</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckIcon />
+                <span>curl (pre-installed on most systems)</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckIcon />
+                <span>Groq API key (free) for AI features</span>
+              </li>
+            </ul>
           </div>
         </div>
-
-        {/* Requirements */}
-        <div className="mt-16 p-6 bg-[#1A1A24] border border-[#2A2A38] rounded-lg">
-          <h3 className="text-lg font-semibold text-[#F5F5F0] mb-4">Requirements</h3>
-          <ul className="space-y-2 text-[#8B8B9E]">
-            <li className="flex items-center gap-2">
-              <CheckIcon />
-              <span>macOS or Linux operating system</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckIcon />
-              <span>Terminal access</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckIcon />
-              <span>curl (pre-installed on most systems)</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <CheckIcon />
-              <span>Groq API key (free) for AI features</span>
-            </li>
-          </ul>
-        </div>
-      </div>
+      </main>
 
       <Footer />
     </div>
