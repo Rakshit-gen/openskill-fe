@@ -87,14 +87,14 @@ function CodeBlock({ code, className }: { code: string; className?: string }) {
 
   return (
     <div className={`relative group ${className}`}>
-      <div className="bg-[#0A0A0F] border border-[#2A2A38] rounded-lg p-4 pr-12">
+      <div className="bg-[#0A0A0F] border border-[#2A2A38] rounded-lg p-4 pr-12 hover:border-[#FF6B35]/50 transition-colors duration-300">
         <pre className="overflow-x-auto scrollbar-hide">
           <code className="text-sm font-mono text-[#F5F5F0] whitespace-pre">{code}</code>
         </pre>
       </div>
       <button
         onClick={handleCopy}
-        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded text-[#8B8B9E] hover:text-[#F5F5F0] transition-colors z-10"
+        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded text-[#8B8B9E] hover:text-[#F5F5F0] transition-colors hover-scale z-10 cursor-pointer"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
@@ -131,8 +131,10 @@ function StepCard({
 export default function InstallPage() {
   const [platform, setPlatform] = useState<Platform>("mac-arm");
   const [detectedPlatform, setDetectedPlatform] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Detect platform
     const userAgent = navigator.userAgent.toLowerCase();
     if (userAgent.includes("mac")) {
@@ -159,8 +161,8 @@ export default function InstallPage() {
       <main className="relative z-10 flex-1">
         <div className="max-w-4xl mx-auto px-6 py-16">
           {/* Header */}
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-[#2A2A38] text-[#00D9A5]">
+          <div className={`text-center mb-16 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
+            <Badge className="mb-4 bg-[#2A2A38] text-[#00D9A5] hover-scale cursor-default">
               Quick Setup
             </Badge>
             <h1 className="text-4xl sm:text-5xl font-bold text-[#F5F5F0] mb-4">
@@ -177,14 +179,14 @@ export default function InstallPage() {
           </div>
 
           {/* Platform Selector */}
-          <div className="mb-12">
+          <div className={`mb-12 ${mounted ? 'animate-slide-up stagger-1' : 'opacity-0'}`}>
             <h2 className="text-lg font-semibold text-[#F5F5F0] mb-4 text-center">Select Your Platform</h2>
             <div className="flex flex-wrap justify-center gap-3">
               {(Object.keys(platformData) as Platform[]).map((key) => (
                 <button
                   key={key}
                   onClick={() => setPlatform(key)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all cursor-pointer hover-scale ${
                     platform === key
                       ? "bg-[#FF6B35] text-[#0A0A0F]"
                       : "bg-[#1A1A24] border border-[#2A2A38] text-[#8B8B9E] hover:text-[#F5F5F0] hover:border-[#FF6B35]"
@@ -198,7 +200,7 @@ export default function InstallPage() {
           </div>
 
           {/* Installation Steps */}
-          <Card className="bg-[#1A1A24] border-[#2A2A38] mb-12">
+          <Card className={`bg-[#1A1A24] border-[#2A2A38] mb-12 hover-lift transition-all duration-300 ${mounted ? 'animate-slide-up stagger-2' : 'opacity-0'}`}>
             <CardContent className="p-8">
               <div className="space-y-2">
                 <StepCard number={1} title="Download & Install">
@@ -274,7 +276,7 @@ openskill config set api-key`} />
           </Card>
 
           {/* Quick Start */}
-          <div className="text-center">
+          <div className={`text-center ${mounted ? 'animate-slide-up stagger-3' : 'opacity-0'}`}>
             <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Ready to Create Your First Skill?</h2>
             <p className="text-[#8B8B9E] mb-6">
               Once installed, try creating your first AI-powered skill:
@@ -283,13 +285,13 @@ openskill config set api-key`} />
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button
                 variant="outline"
-                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24]"
+                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24] hover-scale cursor-pointer"
                 onClick={() => window.location.href = "/docs"}
               >
                 Read Documentation
               </Button>
               <Button
-                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
+                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] hover-scale cursor-pointer"
                 onClick={() => window.open("https://github.com/rakshit-gen/openskill", "_blank")}
               >
                 View on GitHub
@@ -298,7 +300,7 @@ openskill config set api-key`} />
           </div>
 
           {/* Requirements */}
-          <div className="mt-16 p-6 bg-[#1A1A24] border border-[#2A2A38] rounded-lg">
+          <div className={`mt-16 p-6 bg-[#1A1A24] border border-[#2A2A38] rounded-lg hover-lift transition-all duration-300 ${mounted ? 'animate-slide-up stagger-4' : 'opacity-0'}`}>
             <h3 className="text-lg font-semibold text-[#F5F5F0] mb-4">Requirements</h3>
             <ul className="space-y-2 text-[#8B8B9E]">
               <li className="flex items-center gap-2">

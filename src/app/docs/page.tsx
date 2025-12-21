@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Badge } from "@/components/ui/badge";
@@ -45,14 +45,14 @@ function CodeBlock({ code, language = "bash" }: { code: string; language?: strin
 
   return (
     <div className="relative group">
-      <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 pr-12">
+      <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 pr-12 hover:border-[#FF6B35]/50 transition-colors duration-300">
         <pre className="overflow-x-auto scrollbar-hide">
           <code className="text-sm font-mono text-[#F5F5F0] whitespace-pre">{code}</code>
         </pre>
       </div>
       <button
         onClick={handleCopy}
-        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded opacity-0 group-hover:opacity-100 transition-opacity text-[#8B8B9E] hover:text-[#F5F5F0] z-10"
+        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded opacity-0 group-hover:opacity-100 transition-opacity text-[#8B8B9E] hover:text-[#F5F5F0] hover-scale z-10 cursor-pointer"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
@@ -119,6 +119,11 @@ function SidebarSection({
 
 export default function DocsPage() {
   const [activeSection, setActiveSection] = useState("overview");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const sidebarStructure = {
     gettingStarted: [
@@ -157,7 +162,7 @@ export default function DocsPage() {
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         <div className="flex gap-12">
           {/* Sidebar */}
-          <aside className="hidden lg:block w-64 flex-shrink-0">
+          <aside className={`hidden lg:block w-64 flex-shrink-0 ${mounted ? 'animate-slide-in-left' : 'opacity-0'}`}>
             <div className="sticky top-24">
               <h4 className="text-[#F5F5F0] font-semibold mb-4 px-3">Documentation</h4>
               <nav className="space-y-1">
@@ -187,7 +192,7 @@ export default function DocsPage() {
           </aside>
 
           {/* Content */}
-          <main className="flex-1 min-w-0">
+          <main className={`flex-1 min-w-0 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
             <div className="prose prose-invert max-w-none">
               {/* Overview */}
               <section id="overview" className="mb-16">
@@ -198,9 +203,9 @@ export default function DocsPage() {
                   skill definitions that enhance Claude&apos;s capabilities.
                 </p>
                 <div className="flex gap-2 mb-8">
-                  <Badge className="bg-[#2A2A38] text-[#F5F5F0]">Go</Badge>
-                  <Badge className="bg-[#2A2A38] text-[#F5F5F0]">CLI</Badge>
-                  <Badge className="bg-[#2A2A38] text-[#F5F5F0]">AI-Powered</Badge>
+                  <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">Go</Badge>
+                  <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">CLI</Badge>
+                  <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">AI-Powered</Badge>
                 </div>
               </section>
 
@@ -331,8 +336,12 @@ OLLAMA_HOST=http://localhost:11434  # Custom Ollama endpoint`} />
                     { cmd: "history", desc: "Show version history of a skill" },
                     { cmd: "rollback", desc: "Restore a skill to a previous version" },
                     { cmd: "config", desc: "Manage OpenSkill configuration" },
-                  ].map((item) => (
-                    <div key={item.cmd} className="flex items-center gap-4 p-4 bg-[#1A1A24] border border-[#2A2A38] rounded-lg">
+                  ].map((item, index) => (
+                    <div
+                      key={item.cmd}
+                      className="flex items-center gap-4 p-4 bg-[#1A1A24] border border-[#2A2A38] rounded-lg hover:border-[#FF6B35] hover-lift transition-all duration-300"
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
                       <code className="text-[#FF6B35] font-mono">openskill {item.cmd}</code>
                       <span className="text-[#8B8B9E]">{item.desc}</span>
                     </div>
