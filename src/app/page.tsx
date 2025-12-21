@@ -181,7 +181,7 @@ function InstallCommand() {
       </div>
       <div className="flex items-center gap-2 bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 font-mono text-sm">
         <span className="text-[#8B8B9E]">$</span>
-        <code className="text-[#F5F5F0] flex-1 overflow-x-auto whitespace-nowrap text-xs">
+        <code className="text-[#F5F5F0] flex-1 overflow-x-auto scrollbar-hide whitespace-nowrap text-xs">
           {commands[platform]}
         </code>
         <button

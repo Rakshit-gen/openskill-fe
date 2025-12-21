@@ -86,13 +86,15 @@ function CodeBlock({ code, className }: { code: string; className?: string }) {
   };
 
   return (
-    <div className="relative overflow-hidden group">
-      <pre className={`bg-[#0A0A0F] border border-[#2A2A38] rounded-lg p-4 overflow-hidden ${className}`}>
-        <code className="text-sm font-mono text-[#F5F5F0] whitespace-pre">{code}</code>
-      </pre>
+    <div className={`relative group ${className}`}>
+      <div className="bg-[#0A0A0F] border border-[#2A2A38] rounded-lg p-4 pr-12">
+        <pre className="overflow-x-auto scrollbar-hide">
+          <code className="text-sm font-mono text-[#F5F5F0] whitespace-pre">{code}</code>
+        </pre>
+      </div>
       <button
         onClick={handleCopy}
-        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded text-[#8B8B9E] hover:text-[#F5F5F0] transition-colors"
+        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded text-[#8B8B9E] hover:text-[#F5F5F0] transition-colors z-10"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
@@ -110,15 +112,17 @@ function StepCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex gap-6 overflow-hidden">
+    <div className="flex gap-6">
       <div className="flex-shrink-0">
         <div className="w-10 h-10 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold">
           {number}
         </div>
       </div>
-      <div className="flex-1 pb-8 border-l border-[#2A2A38] pl-6 -ml-5">
+      <div className="flex-1 min-w-0 pb-8 border-l border-[#2A2A38] pl-6 -ml-5">
         <h3 className="text-xl font-semibold text-[#F5F5F0] mb-4">{title}</h3>
-        {children}
+        <div className="overflow-hidden">
+          {children}
+        </div>
       </div>
     </div>
   );

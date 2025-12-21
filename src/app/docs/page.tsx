@@ -29,12 +29,14 @@ function CodeBlock({ code, language = "bash" }: { code: string; language?: strin
 
   return (
     <div className="relative group">
-      <pre className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 overflow-x-auto">
-        <code className="text-sm font-mono text-[#F5F5F0]">{code}</code>
-      </pre>
+      <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 pr-12">
+        <pre className="overflow-x-auto scrollbar-hide">
+          <code className="text-sm font-mono text-[#F5F5F0] whitespace-pre">{code}</code>
+        </pre>
+      </div>
       <button
         onClick={handleCopy}
-        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded opacity-0 group-hover:opacity-100 transition-opacity text-[#8B8B9E] hover:text-[#F5F5F0]"
+        className="absolute top-3 right-3 p-2 bg-[#2A2A38] rounded opacity-0 group-hover:opacity-100 transition-opacity text-[#8B8B9E] hover:text-[#F5F5F0] z-10"
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </button>
