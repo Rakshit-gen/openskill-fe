@@ -70,26 +70,79 @@ const ArrowRightIcon = () => (
 // Terminal Demo Component
 function TerminalDemo() {
   const [currentLine, setCurrentLine] = useState(0);
+  const [currentSequence, setCurrentSequence] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const lines = [
-    { type: "input", content: '$ openskill add "code-review" -d "Reviews code for best practices"' },
-    { type: "output", content: "Generating skill with AI..." },
-    { type: "success", content: "✓ Added skill: code-review" },
-    { type: "detail", content: "  Description: Comprehensive code review focusing on security, performance, and maintainability" },
-    { type: "rules", content: "  Rules:" },
-    { type: "rule", content: "    1. Check for security vulnerabilities (XSS, SQL injection, etc.)" },
-    { type: "rule", content: "    2. Verify proper error handling and edge cases" },
-    { type: "rule", content: "    3. Ensure code follows project conventions" },
-    { type: "empty", content: "" },
-    { type: "input", content: "$ openskill list" },
-    { type: "list", content: "  code-review    Reviews code for best practices" },
+  const sequences = [
+    // Sequence 1: Add code-review skill
+    [
+      { type: "input", content: '$ openskill add "code-review" -d "Reviews code for best practices"' },
+      { type: "output", content: "Generating skill with AI..." },
+      { type: "success", content: "✓ Added skill: code-review" },
+      { type: "detail", content: "  Description: Comprehensive code review focusing on security and maintainability" },
+      { type: "rules", content: "  Rules:" },
+      { type: "rule", content: "    1. Check for security vulnerabilities (XSS, SQL injection)" },
+      { type: "rule", content: "    2. Verify proper error handling and edge cases" },
+      { type: "rule", content: "    3. Ensure code follows project conventions" },
+    ],
+    // Sequence 2: Add API design skill
+    [
+      { type: "input", content: '$ openskill add "api-designer" -d "Designs RESTful APIs"' },
+      { type: "output", content: "Generating skill with AI..." },
+      { type: "success", content: "✓ Added skill: api-designer" },
+      { type: "detail", content: "  Description: Expert REST API design with focus on consistency and scalability" },
+      { type: "rules", content: "  Rules:" },
+      { type: "rule", content: "    1. Use proper HTTP methods (GET, POST, PUT, DELETE)" },
+      { type: "rule", content: "    2. Return appropriate status codes" },
+      { type: "rule", content: "    3. Version APIs in the URL path" },
+    ],
+    // Sequence 3: List skills
+    [
+      { type: "input", content: "$ openskill list" },
+      { type: "empty", content: "" },
+      { type: "list", content: "  code-review     Reviews code for best practices" },
+      { type: "list", content: "  api-designer    Designs RESTful APIs" },
+      { type: "list", content: "  test-writer     Generates comprehensive unit tests" },
+      { type: "list", content: "  doc-writer      Creates technical documentation" },
+    ],
+    // Sequence 4: Show a skill
+    [
+      { type: "input", content: '$ openskill show "test-writer"' },
+      { type: "empty", content: "" },
+      { type: "success", content: "Name: test-writer" },
+      { type: "detail", content: "Description: Generates comprehensive unit tests with edge cases" },
+      { type: "rules", content: "Rules:" },
+      { type: "rule", content: "  1. Cover happy path and error scenarios" },
+      { type: "rule", content: "  2. Use descriptive test names" },
+      { type: "rule", content: "  3. Mock external dependencies" },
+    ],
+    // Sequence 5: Config command
+    [
+      { type: "input", content: "$ openskill config list" },
+      { type: "empty", content: "" },
+      { type: "output", content: "OpenSkill Configuration:" },
+      { type: "detail", content: "  api-key: gsk_...x66MW" },
+      { type: "detail", content: "  model:   llama-3.3-70b-versatile (default)" },
+      { type: "empty", content: "" },
+      { type: "output", content: "Config file: ~/.openskill/config.yaml" },
+    ],
   ];
+
+  const lines = sequences[currentSequence];
 
   useEffect(() => {
     const lineInterval = setInterval(() => {
-      setCurrentLine((prev) => (prev < lines.length - 1 ? prev + 1 : prev));
-    }, 600);
+      setCurrentLine((prev) => {
+        if (prev < lines.length - 1) {
+          return prev + 1;
+        } else {
+          // Start transition to next sequence
+          setIsTransitioning(true);
+          return prev;
+        }
+      });
+    }, 500);
 
     const cursorInterval = setInterval(() => {
       setShowCursor((prev) => !prev);
@@ -99,7 +152,20 @@ function TerminalDemo() {
       clearInterval(lineInterval);
       clearInterval(cursorInterval);
     };
-  }, []);
+  }, [lines.length]);
+
+  // Handle sequence transition
+  useEffect(() => {
+    if (isTransitioning) {
+      const timeout = setTimeout(() => {
+        setCurrentSequence((prev) => (prev + 1) % sequences.length);
+        setCurrentLine(0);
+        setIsTransitioning(false);
+      }, 2000); // Wait 2 seconds before switching
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isTransitioning, sequences.length]);
 
   const getLineColor = (type: string) => {
     switch (type) {
@@ -125,11 +191,11 @@ function TerminalDemo() {
       <div className="terminal-body min-h-[320px]">
         {lines.slice(0, currentLine + 1).map((line, index) => (
           <div
-            key={index}
+            key={`${currentSequence}-${index}`}
             className={`${getLineColor(line.type)} font-mono text-sm leading-relaxed`}
           >
             {line.content}
-            {index === currentLine && showCursor && (
+            {index === currentLine && showCursor && !isTransitioning && (
               <span className="inline-block w-2 h-4 bg-[#FF6B35] ml-1 align-middle" />
             )}
           </div>
