@@ -1,18 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
 
 // Icons as components
-const TerminalIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="4 17 10 11 4 5" />
-    <line x1="12" y1="19" x2="20" y2="19" />
-  </svg>
-);
-
 const SparklesIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
@@ -260,39 +256,7 @@ export default function Home() {
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#FF6B35] opacity-[0.03] blur-[100px] rounded-full" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00D9A5] opacity-[0.03] blur-[100px] rounded-full" />
 
-      {/* Navigation */}
-      <nav className="relative z-10 border-b border-[#2A2A38]">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-[#FF6B35] flex items-center justify-center">
-                <TerminalIcon />
-              </div>
-              <span className="font-semibold text-lg text-[#F5F5F0]">OpenSkill</span>
-              <Badge variant="outline" className="text-[#00D9A5] border-[#00D9A5] text-xs">
-                v0.1.0
-              </Badge>
-            </div>
-            <div className="flex items-center gap-4">
-              <a
-                href="https://github.com/rakshit-gen/openskill"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-[#8B8B9E] hover:text-[#F5F5F0] transition-colors"
-              >
-                <GitHubIcon />
-                <span className="hidden sm:inline text-sm">GitHub</span>
-              </a>
-              <Button
-                size="sm"
-                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-medium"
-              >
-                Get Started
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative z-10 py-24 px-6">
@@ -317,20 +281,24 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <Button
-                size="lg"
-                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-semibold px-8 animate-pulse-glow"
-              >
-                Install Now
-                <ArrowRightIcon />
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24]"
-              >
-                View Documentation
-              </Button>
+              <Link href="/install">
+                <Button
+                  size="lg"
+                  className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-semibold px-8 animate-pulse-glow"
+                >
+                  Install Now
+                  <ArrowRightIcon />
+                </Button>
+              </Link>
+              <Link href="/docs">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24]"
+                >
+                  View Documentation
+                </Button>
+              </Link>
             </div>
 
             <InstallCommand />
@@ -471,40 +439,33 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              size="lg"
-              className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-semibold px-8"
+            <a
+              href="https://github.com/rakshit-gen/openskill"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <GitHubIcon />
-              <span className="ml-2">View on GitHub</span>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24]"
-            >
-              Read the Docs
-            </Button>
+              <Button
+                size="lg"
+                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-semibold px-8"
+              >
+                <GitHubIcon />
+                <span className="ml-2">View on GitHub</span>
+              </Button>
+            </a>
+            <Link href="/docs">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24]"
+              >
+                Read the Docs
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-[#2A2A38] py-8 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded bg-[#FF6B35] flex items-center justify-center">
-              <TerminalIcon />
-            </div>
-            <span className="text-[#8B8B9E] text-sm">OpenSkill CLI</span>
-          </div>
-          <div className="flex items-center gap-6 text-sm text-[#8B8B9E]">
-            <a href="#" className="hover:text-[#F5F5F0] transition-colors">Documentation</a>
-            <a href="https://github.com/rakshit-gen/openskill" className="hover:text-[#F5F5F0] transition-colors">GitHub</a>
-            <span>MIT License</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
