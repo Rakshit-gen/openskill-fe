@@ -67,13 +67,18 @@ export default function DocsPage() {
     { id: "installation", label: "Installation" },
     { id: "configuration", label: "Configuration" },
     { id: "commands", label: "Commands" },
+    { id: "init", label: "openskill init" },
     { id: "add", label: "openskill add" },
     { id: "list", label: "openskill list" },
     { id: "show", label: "openskill show" },
     { id: "edit", label: "openskill edit" },
     { id: "remove", label: "openskill remove" },
+    { id: "validate", label: "openskill validate" },
+    { id: "history", label: "openskill history" },
+    { id: "rollback", label: "openskill rollback" },
     { id: "config", label: "openskill config" },
     { id: "skill-format", label: "Skill Format" },
+    { id: "skill-composition", label: "Skill Composition" },
     { id: "ai-generation", label: "AI Generation" },
     { id: "examples", label: "Examples" },
   ];
@@ -186,17 +191,21 @@ sudo mv build/openskill /usr/local/bin/`} />
               <section id="commands" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Commands</h2>
                 <p className="text-[#8B8B9E] mb-6">
-                  OpenSkill provides six main commands for managing your skills:
+                  OpenSkill provides comprehensive commands for managing your skills:
                 </p>
 
                 <div className="grid gap-4">
                   {[
+                    { cmd: "init", desc: "Initialize OpenSkill in your project" },
                     { cmd: "add", desc: "Create a new skill with optional AI generation" },
                     { cmd: "list", desc: "List all available skills" },
                     { cmd: "show", desc: "Display detailed information about a skill" },
                     { cmd: "edit", desc: "Modify an existing skill" },
                     { cmd: "remove", desc: "Delete a skill" },
-                    { cmd: "config", desc: "Manage OpenSkill configuration (API key, model)" },
+                    { cmd: "validate", desc: "Validate a skill's YAML structure" },
+                    { cmd: "history", desc: "Show version history of a skill" },
+                    { cmd: "rollback", desc: "Restore a skill to a previous version" },
+                    { cmd: "config", desc: "Manage OpenSkill configuration" },
                   ].map((item) => (
                     <div key={item.cmd} className="flex items-center gap-4 p-4 bg-[#1A1A24] border border-[#2A2A38] rounded-lg">
                       <code className="text-[#FF6B35] font-mono">openskill {item.cmd}</code>
@@ -204,6 +213,46 @@ sudo mv build/openskill /usr/local/bin/`} />
                     </div>
                   ))}
                 </div>
+              </section>
+
+              {/* openskill init */}
+              <section id="init" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill init</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Initialize OpenSkill in your project. This is the recommended first command to run
+                  when setting up OpenSkill in a new project.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
+                <CodeBlock code={`openskill init`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">What It Does</h3>
+                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
+                  <li>Creates the <code className="text-[#FF6B35]">.claude/skills/</code> directory</li>
+                  <li>Optionally configures your Groq API key</li>
+                  <li>Creates an example skill to get you started</li>
+                  <li>Displays helpful guidance on using skills with Claude</li>
+                </ul>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example Output</h3>
+                <CodeBlock code={`$ openskill init
+
+  ╔═══════════════════════════════════════════════════════════╗
+  ║   ⚡ OpenSkill - Claude Skill Manager                     ║
+  ╚═══════════════════════════════════════════════════════════╝
+
+  [1/3] Setting up skills directory...
+        ✓ Created .claude/skills/
+
+  [2/3] Checking API configuration...
+        ✓ API key configured (gsk_...xxxx)
+
+  [3/3] Creating example skill...
+        ✓ Created example.yaml
+
+  ╔═══════════════════════════════════════════════════════════╗
+  ║                    Setup Complete!                        ║
+  ╚═══════════════════════════════════════════════════════════╝`} />
               </section>
 
               {/* openskill add */}
@@ -344,6 +393,89 @@ openskill edit "code-review" -r "New rule 1" -r "New rule 2"`} />
 ✓ Removed skill: old-skill`} />
               </section>
 
+              {/* openskill validate */}
+              <section id="validate" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill validate</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Validate a skill&apos;s YAML structure and content before using it with Claude.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
+                <CodeBlock code={`openskill validate <name>`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">What It Checks</h3>
+                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
+                  <li>YAML syntax validation</li>
+                  <li>Required fields (name, description)</li>
+                  <li>Rule format and content quality</li>
+                  <li>Best practices recommendations</li>
+                </ul>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
+                <CodeBlock code={`$ openskill validate "code-review"
+
+  ✓ Skill 'code-review' is valid
+
+  Skill Summary:
+  ─────────────
+  Name:        code-review
+  Description: Reviews code for best practices and security...
+  Rules:       5 defined`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Validation with Warnings</h3>
+                <CodeBlock code={`$ openskill validate "quick-skill"
+
+  ⚠ Validation Passed with Warnings: quick-skill
+
+  Warnings:
+  └─ Description is very short - add more detail for clarity
+  └─ Rule 1 is very short - be more specific`} />
+              </section>
+
+              {/* openskill history */}
+              <section id="history" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill history</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Show the version history of a skill. Each time you edit a skill, the previous
+                  version is automatically saved.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
+                <CodeBlock code={`openskill history <name>`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
+                <CodeBlock code={`$ openskill history "code-review"
+
+  Version History: code-review
+  ════════════════════════════════════════════
+
+  ● current     2024-01-15 14:32:00  (active)
+  ○ v2          2024-01-14 10:15:00
+  ○ v1          2024-01-13 09:00:00
+
+  To restore a version: openskill rollback code-review <version>`} />
+              </section>
+
+              {/* openskill rollback */}
+              <section id="rollback" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill rollback</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Restore a skill to a previous version. The current version is automatically
+                  saved to history before the rollback.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
+                <CodeBlock code={`openskill rollback <name> <version>`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
+                <CodeBlock code={`$ openskill rollback "code-review" v1
+
+  ✓ Restored 'code-review' to version 1
+
+  The previous version has been saved to history.
+  Use 'openskill show code-review' to view the restored skill.`} />
+              </section>
+
               {/* openskill config */}
               <section id="config" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill config</h2>
@@ -450,6 +582,50 @@ rules:
   - Verify proper error handling
   - Ensure code follows conventions
   - Review test coverage`} language="yaml" />
+              </section>
+
+              {/* Skill Composition */}
+              <section id="skill-composition" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Skill Composition</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  OpenSkill supports skill composition through <code className="text-[#FF6B35]">extends</code> and{" "}
+                  <code className="text-[#FF6B35]">includes</code> fields, allowing you to build complex skills
+                  from simpler components.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Extending Skills</h3>
+                <p className="text-[#8B8B9E] mb-4">
+                  Use <code className="text-[#FF6B35]">extends</code> to inherit from a parent skill and add
+                  or override rules.
+                </p>
+                <CodeBlock code={`name: security-review
+description: Security-focused code review
+extends: code-review
+rules:
+  - Focus specifically on OWASP Top 10 vulnerabilities
+  - Check authentication and authorization flows
+  - Verify input validation and sanitization`} language="yaml" />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Including Multiple Skills</h3>
+                <p className="text-[#8B8B9E] mb-4">
+                  Use <code className="text-[#FF6B35]">includes</code> to merge multiple skills together.
+                </p>
+                <CodeBlock code={`name: full-review
+description: Comprehensive review combining multiple aspects
+includes:
+  - code-review
+  - security-review
+  - performance-review
+rules:
+  - Provide a summary score for each review area`} language="yaml" />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Composition Benefits</h3>
+                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
+                  <li>Build specialized skills from general ones</li>
+                  <li>Avoid duplicating common rules across skills</li>
+                  <li>Create skill libraries that can be reused</li>
+                  <li>Compose complex behaviors from simple building blocks</li>
+                </ul>
               </section>
 
               {/* AI Generation */}

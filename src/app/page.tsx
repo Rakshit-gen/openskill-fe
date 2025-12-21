@@ -75,29 +75,59 @@ function TerminalDemo() {
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const sequences = [
-    // Sequence 1: Add code-review skill
+    // Sequence 1: Init command
+    [
+      { type: "input", content: "$ openskill init" },
+      { type: "empty", content: "" },
+      { type: "output", content: "  [1/3] Setting up skills directory..." },
+      { type: "success", content: "        ✓ Created .claude/skills/" },
+      { type: "output", content: "  [2/3] Checking API configuration..." },
+      { type: "success", content: "        ✓ API key configured (gsk_...x66MW)" },
+      { type: "output", content: "  [3/3] Creating example skill..." },
+      { type: "success", content: "        ✓ Created example.yaml" },
+    ],
+    // Sequence 2: Add code-review skill
     [
       { type: "input", content: '$ openskill add "code-review" -d "Reviews code for best practices"' },
       { type: "output", content: "Generating skill with AI..." },
       { type: "success", content: "✓ Added skill: code-review" },
-      { type: "detail", content: "  Description: Comprehensive code review focusing on security and maintainability" },
+      { type: "detail", content: "  Description: Comprehensive code review focusing on security" },
       { type: "rules", content: "  Rules:" },
-      { type: "rule", content: "    1. Check for security vulnerabilities (XSS, SQL injection)" },
-      { type: "rule", content: "    2. Verify proper error handling and edge cases" },
-      { type: "rule", content: "    3. Ensure code follows project conventions" },
+      { type: "rule", content: "    1. Check for security vulnerabilities" },
+      { type: "rule", content: "    2. Verify proper error handling" },
+      { type: "rule", content: "    3. Ensure code follows conventions" },
     ],
-    // Sequence 2: Add API design skill
+    // Sequence 3: Validate skill
     [
-      { type: "input", content: '$ openskill add "api-designer" -d "Designs RESTful APIs"' },
-      { type: "output", content: "Generating skill with AI..." },
-      { type: "success", content: "✓ Added skill: api-designer" },
-      { type: "detail", content: "  Description: Expert REST API design with focus on consistency and scalability" },
-      { type: "rules", content: "  Rules:" },
-      { type: "rule", content: "    1. Use proper HTTP methods (GET, POST, PUT, DELETE)" },
-      { type: "rule", content: "    2. Return appropriate status codes" },
-      { type: "rule", content: "    3. Version APIs in the URL path" },
+      { type: "input", content: '$ openskill validate "code-review"' },
+      { type: "empty", content: "" },
+      { type: "success", content: "  ✓ Skill 'code-review' is valid" },
+      { type: "empty", content: "" },
+      { type: "output", content: "  Skill Summary:" },
+      { type: "detail", content: "  Name:        code-review" },
+      { type: "detail", content: "  Description: Reviews code for best practices..." },
+      { type: "detail", content: "  Rules:       5 defined" },
     ],
-    // Sequence 3: List skills
+    // Sequence 4: History command
+    [
+      { type: "input", content: '$ openskill history "code-review"' },
+      { type: "empty", content: "" },
+      { type: "output", content: "  Version History: code-review" },
+      { type: "empty", content: "" },
+      { type: "success", content: "  ● current     2024-01-15 14:32:00  (active)" },
+      { type: "detail", content: "  ○ v2          2024-01-14 10:15:00" },
+      { type: "detail", content: "  ○ v1          2024-01-13 09:00:00" },
+    ],
+    // Sequence 5: Rollback command
+    [
+      { type: "input", content: '$ openskill rollback "code-review" v1' },
+      { type: "empty", content: "" },
+      { type: "success", content: "  ✓ Restored 'code-review' to version 1" },
+      { type: "empty", content: "" },
+      { type: "detail", content: "  The previous version has been saved to history." },
+      { type: "detail", content: "  Use 'openskill show code-review' to view the skill." },
+    ],
+    // Sequence 6: List skills
     [
       { type: "input", content: "$ openskill list" },
       { type: "empty", content: "" },
@@ -105,27 +135,6 @@ function TerminalDemo() {
       { type: "list", content: "  api-designer    Designs RESTful APIs" },
       { type: "list", content: "  test-writer     Generates comprehensive unit tests" },
       { type: "list", content: "  doc-writer      Creates technical documentation" },
-    ],
-    // Sequence 4: Show a skill
-    [
-      { type: "input", content: '$ openskill show "test-writer"' },
-      { type: "empty", content: "" },
-      { type: "success", content: "Name: test-writer" },
-      { type: "detail", content: "Description: Generates comprehensive unit tests with edge cases" },
-      { type: "rules", content: "Rules:" },
-      { type: "rule", content: "  1. Cover happy path and error scenarios" },
-      { type: "rule", content: "  2. Use descriptive test names" },
-      { type: "rule", content: "  3. Mock external dependencies" },
-    ],
-    // Sequence 5: Config command
-    [
-      { type: "input", content: "$ openskill config list" },
-      { type: "empty", content: "" },
-      { type: "output", content: "OpenSkill Configuration:" },
-      { type: "detail", content: "  api-key: gsk_...x66MW" },
-      { type: "detail", content: "  model:   llama-3.3-70b-versatile (default)" },
-      { type: "empty", content: "" },
-      { type: "output", content: "Config file: ~/.openskill/config.yaml" },
     ],
   ];
 
@@ -436,24 +445,24 @@ export default function Home() {
 
               <div className="space-y-1">
                 <CommandExample
+                  command="openskill init"
+                  description="Initialize OpenSkill in your project"
+                />
+                <CommandExample
                   command="openskill add"
                   description="Create a new skill with AI-generated content"
                 />
                 <CommandExample
-                  command="openskill list"
-                  description="View all your skills at a glance"
+                  command="openskill validate"
+                  description="Validate a skill's YAML structure"
                 />
                 <CommandExample
-                  command="openskill show"
-                  description="Display detailed skill information"
+                  command="openskill history"
+                  description="View version history of a skill"
                 />
                 <CommandExample
-                  command="openskill edit"
-                  description="Modify existing skill properties"
-                />
-                <CommandExample
-                  command="openskill remove"
-                  description="Delete skills you no longer need"
+                  command="openskill rollback"
+                  description="Restore a skill to a previous version"
                 />
               </div>
             </div>
