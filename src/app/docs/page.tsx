@@ -248,7 +248,7 @@ sudo mv build/openskill /usr/local/bin/`} />
         ✓ API key configured (gsk_...xxxx)
 
   [3/3] Creating example skill...
-        ✓ Created example.yaml
+        ✓ Created example/SKILL.md
 
   ╔═══════════════════════════════════════════════════════════╗
   ║                    Setup Complete!                        ║
@@ -562,26 +562,49 @@ openskill config get api-key`} />
               <section id="skill-format" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Skill Format</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Skills are stored as YAML files in <code className="text-[#FF6B35]">.claude/skills/</code> directory.
+                  Skills are Markdown files with YAML frontmatter, stored in directories under{" "}
+                  <code className="text-[#FF6B35]">.claude/skills/</code>. Each skill is a folder containing
+                  a <code className="text-[#FF6B35]">SKILL.md</code> file.
                 </p>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">File Structure</h3>
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Directory Structure</h3>
                 <CodeBlock code={`.claude/
 └── skills/
-    ├── code-review.yaml
-    ├── bug-finder.yaml
-    └── test-writer.yaml`} />
+    ├── code-review/
+    │   └── SKILL.md
+    ├── bug-finder/
+    │   └── SKILL.md
+    └── test-writer/
+        └── SKILL.md`} />
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">YAML Schema</h3>
-                <CodeBlock code={`name: code-review
-description: >
-  Comprehensive code review focusing on security,
-  performance, and maintainability best practices.
-rules:
-  - Check for security vulnerabilities
-  - Verify proper error handling
-  - Ensure code follows conventions
-  - Review test coverage`} language="yaml" />
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">SKILL.md Format</h3>
+                <p className="text-[#8B8B9E] mb-4">
+                  Each skill file starts with YAML frontmatter (metadata) followed by Markdown content:
+                </p>
+                <CodeBlock code={`---
+name: code-review
+description: Comprehensive code review focusing on security and maintainability
+---
+
+# code-review
+
+Comprehensive code review focusing on security, performance,
+and maintainability best practices.
+
+## Rules
+
+- Check for security vulnerabilities (XSS, SQL injection, etc.)
+- Verify proper error handling and edge cases
+- Ensure code follows project conventions
+- Review test coverage and quality`} language="markdown" />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Why This Format?</h3>
+                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
+                  <li>Claude natively discovers and reads SKILL.md files</li>
+                  <li>YAML frontmatter provides metadata for skill discovery</li>
+                  <li>Markdown body allows rich, structured instructions</li>
+                  <li>Directory-based structure supports additional files per skill</li>
+                </ul>
               </section>
 
               {/* Skill Composition */}
@@ -595,29 +618,44 @@ rules:
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Extending Skills</h3>
                 <p className="text-[#8B8B9E] mb-4">
-                  Use <code className="text-[#FF6B35]">extends</code> to inherit from a parent skill and add
-                  or override rules.
+                  Use <code className="text-[#FF6B35]">extends</code> in the frontmatter to inherit from a parent skill:
                 </p>
-                <CodeBlock code={`name: security-review
+                <CodeBlock code={`---
+name: security-review
 description: Security-focused code review
 extends: code-review
-rules:
-  - Focus specifically on OWASP Top 10 vulnerabilities
-  - Check authentication and authorization flows
-  - Verify input validation and sanitization`} language="yaml" />
+---
+
+# security-review
+
+Security-focused code review that extends the base code-review skill.
+
+## Rules
+
+- Focus specifically on OWASP Top 10 vulnerabilities
+- Check authentication and authorization flows
+- Verify input validation and sanitization`} language="markdown" />
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Including Multiple Skills</h3>
                 <p className="text-[#8B8B9E] mb-4">
-                  Use <code className="text-[#FF6B35]">includes</code> to merge multiple skills together.
+                  Use <code className="text-[#FF6B35]">includes</code> to merge multiple skills together:
                 </p>
-                <CodeBlock code={`name: full-review
+                <CodeBlock code={`---
+name: full-review
 description: Comprehensive review combining multiple aspects
 includes:
   - code-review
   - security-review
   - performance-review
-rules:
-  - Provide a summary score for each review area`} language="yaml" />
+---
+
+# full-review
+
+Comprehensive review combining multiple skill aspects.
+
+## Rules
+
+- Provide a summary score for each review area`} language="markdown" />
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Composition Benefits</h3>
                 <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
