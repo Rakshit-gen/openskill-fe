@@ -243,7 +243,7 @@ export default function InstallPage() {
                     </table>
                   </div>
                   <Button
-                    className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
+                    className="bg-[#FF6B35] cursor-pointer hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
                     onClick={() => window.open("https://console.groq.com", "_blank")}
                   >
                     Get Free Groq API Key
@@ -285,7 +285,7 @@ openskill config set api-key`} />
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button
                 variant="outline"
-                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24] hover-scale cursor-pointer"
+                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-white hover-scale cursor-pointer"
                 onClick={() => window.location.href = "/docs"}
               >
                 Read Documentation
