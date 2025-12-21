@@ -114,9 +114,9 @@ function TerminalDemo() {
       { type: "empty", content: "" },
       { type: "output", content: "  Version History: code-review" },
       { type: "empty", content: "" },
-      { type: "success", content: "  ● current     2024-01-15 14:32:00  (active)" },
-      { type: "detail", content: "  ○ v2          2024-01-14 10:15:00" },
-      { type: "detail", content: "  ○ v1          2024-01-13 09:00:00" },
+      { type: "success", content: "  ● current     2025-01-15 14:32:00  (active)" },
+      { type: "detail", content: "  ○ v2          2025-01-14 10:15:00" },
+      { type: "detail", content: "  ○ v1          2025-01-13 09:00:00" },
     ],
     // Sequence 5: Rollback command
     [

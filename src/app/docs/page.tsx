@@ -449,9 +449,9 @@ openskill edit "code-review" -r "New rule 1" -r "New rule 2"`} />
   Version History: code-review
   ════════════════════════════════════════════
 
-  ● current     2024-01-15 14:32:00  (active)
-  ○ v2          2024-01-14 10:15:00
-  ○ v1          2024-01-13 09:00:00
+  ● current     2025-01-15 14:32:00  (active)
+  ○ v2          2025-01-14 10:15:00
+  ○ v1          2025-01-13 09:00:00
 
   To restore a version: openskill rollback code-review <version>`} />
               </section>
