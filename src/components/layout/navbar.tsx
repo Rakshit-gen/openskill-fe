@@ -4,13 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-const TerminalIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="4 17 10 11 4 5" />
-    <line x1="12" y1="19" x2="20" y2="19" />
-  </svg>
-);
+import { OpenSkillIcon } from "@/components/icons/logo";
 
 const GitHubIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -33,9 +27,7 @@ export function Navbar() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded bg-[#FF6B35] flex items-center justify-center">
-                <TerminalIcon />
-              </div>
+              <OpenSkillIcon size={32} />
               <span className="font-semibold text-lg text-[#F5F5F0]">OpenSkill</span>
               <Badge variant="outline" className="text-[#00D9A5] border-[#00D9A5] text-xs">
                 v0.1.0

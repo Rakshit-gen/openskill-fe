@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { OpenSkillLogoAnimated } from "@/components/icons/logo";
 
 // Icons as components
 const SparklesIcon = () => (
@@ -262,6 +263,8 @@ export default function Home() {
       <section className="relative z-10 py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className={`text-center mb-16 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
+            {/* Animated Logo */}
+
             <Badge
               variant="outline"
               className="mb-6 text-[#8B8B9E] border-[#2A2A38] bg-[#1A1A24]"

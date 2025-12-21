@@ -1,11 +1,5 @@
 import Link from "next/link";
-
-const TerminalIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="4 17 10 11 4 5" />
-    <line x1="12" y1="19" x2="20" y2="19" />
-  </svg>
-);
+import { OpenSkillIcon } from "@/components/icons/logo";
 
 export function Footer() {
   return (
@@ -14,9 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-6 h-6 rounded bg-[#FF6B35] flex items-center justify-center">
-                <TerminalIcon />
-              </div>
+              <OpenSkillIcon size={24} />
               <span className="font-semibold text-[#F5F5F0]">OpenSkill CLI</span>
             </div>
             <p className="text-[#8B8B9E] text-sm max-w-md">
