@@ -221,13 +221,14 @@ export default function InstallPage() {
                   </Button>
                 </StepCard>
 
-                <StepCard number={3} title="Configure Environment">
+                <StepCard number={3} title="Configure API Key">
                   <p className="text-[#8B8B9E] mb-4">
-                    Set your Groq API key as an environment variable:
+                    Save your Groq API key using the built-in config command:
                   </p>
-                  <CodeBlock code={`export GROQ_API_KEY=your_key_here`} />
+                  <CodeBlock code={`openskill config set api-key`} />
                   <p className="text-[#8B8B9E] text-sm mt-4">
-                    Add this line to your shell profile (<code className="text-[#FF6B35]">~/.bashrc</code>, <code className="text-[#FF6B35]">~/.zshrc</code>) for persistence.
+                    You&apos;ll be prompted to enter your key. This saves it to{" "}
+                    <code className="text-[#FF6B35]">~/.openskill/config.yaml</code> and works across all terminal sessions.
                   </p>
                 </StepCard>
 

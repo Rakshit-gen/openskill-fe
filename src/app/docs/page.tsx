@@ -70,6 +70,7 @@ export default function DocsPage() {
     { id: "show", label: "openskill show" },
     { id: "edit", label: "openskill edit" },
     { id: "remove", label: "openskill remove" },
+    { id: "config", label: "openskill config" },
     { id: "skill-format", label: "Skill Format" },
     { id: "ai-generation", label: "AI Generation" },
     { id: "examples", label: "Examples" },
@@ -159,20 +160,31 @@ sudo mv build/openskill /usr/local/bin/`} />
                   <li>Generate an API key</li>
                 </ol>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Set Environment Variable</h3>
-                <CodeBlock code={`export GROQ_API_KEY=your_key_here`} />
-
-                <p className="text-[#8B8B9E] mt-4">
-                  Add this to your shell profile (<code className="text-[#FF6B35]">~/.bashrc</code>,{" "}
-                  <code className="text-[#FF6B35]">~/.zshrc</code>, etc.) for persistence.
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Set Your API Key</h3>
+                <p className="text-[#8B8B9E] mb-4">
+                  Use the built-in config command to save your API key persistently:
                 </p>
+                <CodeBlock code={`openskill config set api-key`} />
+                <p className="text-[#8B8B9E] mt-4">
+                  You&apos;ll be prompted to enter your key. This saves it to{" "}
+                  <code className="text-[#FF6B35]">~/.openskill/config.yaml</code> and works across all terminal sessions.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">View Configuration</h3>
+                <CodeBlock code={`openskill config list`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Alternative: Environment Variable</h3>
+                <p className="text-[#8B8B9E] mb-4">
+                  You can also use an environment variable (takes precedence over config file):
+                </p>
+                <CodeBlock code={`export GROQ_API_KEY=your_key_here`} />
               </section>
 
               {/* Commands Overview */}
               <section id="commands" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Commands</h2>
                 <p className="text-[#8B8B9E] mb-6">
-                  OpenSkill provides five main commands for managing your skills:
+                  OpenSkill provides six main commands for managing your skills:
                 </p>
 
                 <div className="grid gap-4">
@@ -182,6 +194,7 @@ sudo mv build/openskill /usr/local/bin/`} />
                     { cmd: "show", desc: "Display detailed information about a skill" },
                     { cmd: "edit", desc: "Modify an existing skill" },
                     { cmd: "remove", desc: "Delete a skill" },
+                    { cmd: "config", desc: "Manage OpenSkill configuration (API key, model)" },
                   ].map((item) => (
                     <div key={item.cmd} className="flex items-center gap-4 p-4 bg-[#1A1A24] border border-[#2A2A38] rounded-lg">
                       <code className="text-[#FF6B35] font-mono">openskill {item.cmd}</code>
@@ -327,6 +340,88 @@ openskill edit "code-review" -r "New rule 1" -r "New rule 2"`} />
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
                 <CodeBlock code={`$ openskill remove "old-skill"
 ✓ Removed skill: old-skill`} />
+              </section>
+
+              {/* openskill config */}
+              <section id="config" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill config</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Manage OpenSkill configuration. Settings are stored in{" "}
+                  <code className="text-[#FF6B35]">~/.openskill/config.yaml</code> and persist across terminal sessions.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Subcommands</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#2A2A38]">
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Command</th>
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-[#8B8B9E]">
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">set &lt;key&gt; [value]</td>
+                        <td className="py-3 px-4">Set a configuration value</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">get &lt;key&gt;</td>
+                        <td className="py-3 px-4">Get a configuration value</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">list</td>
+                        <td className="py-3 px-4">List all configuration values</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Configuration Keys</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#2A2A38]">
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Key</th>
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-[#8B8B9E]">
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">api-key</td>
+                        <td className="py-3 px-4">Your Groq API key for AI features</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">model</td>
+                        <td className="py-3 px-4">LLM model to use (default: llama-3.3-70b-versatile)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Examples</h3>
+                <CodeBlock code={`# Set API key (prompts for secure input)
+openskill config set api-key
+
+# Set API key directly
+openskill config set api-key gsk_your_key_here
+
+# Change the LLM model
+openskill config set model llama-3.1-8b-instant
+
+# View current configuration
+openskill config list
+
+# Get a specific value
+openskill config get api-key`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Environment Variables</h3>
+                <p className="text-[#8B8B9E]">
+                  Environment variables take precedence over config file values:
+                </p>
+                <ul className="list-disc list-inside text-[#8B8B9E] mt-2 space-y-1">
+                  <li><code className="text-[#FF6B35]">GROQ_API_KEY</code> - Overrides api-key</li>
+                  <li><code className="text-[#FF6B35]">OPENSKILL_MODEL</code> - Overrides model</li>
+                </ul>
               </section>
 
               {/* Skill Format */}
