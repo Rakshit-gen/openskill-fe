@@ -30,16 +30,6 @@ export function Footer() {
                   Installation
                 </Link>
               </li>
-              <li>
-                <a
-                  href="https://github.com/rakshit-gen/openskill/releases"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#8B8B9E] hover:text-[#F5F5F0] transition-colors"
-                >
-                  Releases
-                </a>
-              </li>
             </ul>
           </div>
 

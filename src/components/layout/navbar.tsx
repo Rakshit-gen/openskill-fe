@@ -29,9 +29,6 @@ export function Navbar() {
             <Link href="/" className="flex items-center gap-3">
               <OpenSkillIcon size={32} />
               <span className="font-semibold text-lg text-[#F5F5F0]">OpenSkill</span>
-              <Badge variant="outline" className="text-[#00D9A5] border-[#00D9A5] text-xs">
-                v0.1.0
-              </Badge>
             </Link>
             <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
