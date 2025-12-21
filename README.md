@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OpenSkill CLI
 
-## Getting Started
+A CLI tool to create and manage Claude skills with AI-powered content generation.
 
-First, run the development server:
+## Installation
+
+### Homebrew (macOS/Linux)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+brew tap rakshitsisodiya/tap
+brew install openskill
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### From Source
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+git clone https://github.com/rakshitsisodiya/openskill.git
+cd openskill
+make build
+./build/openskill --help
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup
 
-## Learn More
+Get a free API key from [Groq](https://console.groq.com/) and set it:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+export GROQ_API_KEY=your_key_here
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Add a skill (AI-powered)
 
-## Deploy on Vercel
+```bash
+openskill add "code-review" -d "Reviews code for best practices"
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The AI will generate a detailed description and relevant rules automatically.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Add a skill (manual)
+
+```bash
+openskill add "code-review" -d "Reviews code" --manual -r "Check security" -r "Check performance"
+```
+
+### List skills
+
+```bash
+openskill list
+```
+
+### Show skill details
+
+```bash
+openskill show "code-review"
+```
+
+### Edit a skill
+
+```bash
+openskill edit "code-review" -d "New description"
+openskill edit "code-review" -r "New rule 1" -r "New rule 2"
+```
+
+### Remove a skill
+
+```bash
+openskill remove "code-review"
+```
+
+## Where are skills stored?
+
+Skills are saved to `.claude/skills/` in your current directory as YAML files.
+
+## License
+
+MIT
+# openskill
+# openskill-fe
