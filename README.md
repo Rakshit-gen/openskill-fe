@@ -1,80 +1,88 @@
-# OpenSkill CLI
+# OpenSkill Landing Page
 
-A CLI tool to create and manage Claude skills with AI-powered content generation.
+The official landing page and documentation site for OpenSkill CLI.
 
-## Installation
+## About OpenSkill
 
-### Homebrew (macOS/Linux)
+OpenSkill is a command-line tool for creating and managing Claude skills with AI-powered content generation. It supports multiple AI providers and uses Claude's native SKILL.md format.
+
+## Features
+
+- **Multi-Provider AI**: Groq, OpenAI, Anthropic, and Ollama (local)
+- **SKILL.md Format**: Markdown with YAML frontmatter for Claude's native skill discovery
+- **Version History**: Track changes with automatic versioning and rollback
+- **Skill Composition**: Extend and combine skills with `extends` and `includes`
+- **Validation**: Validate skill structure before deploying
+
+## Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS
+- **Components**: shadcn/ui
+- **Animations**: Custom CSS animations
+
+## Development
 
 ```bash
-brew tap rakshitsisodiya/tap
-brew install openskill
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-### From Source
+## Pages
 
+- `/` - Home page with terminal demo
+- `/docs` - Documentation
+- `/install` - Installation guide
+
+## CLI Installation
+
+### macOS (Apple Silicon)
 ```bash
-git clone https://github.com/rakshitsisodiya/openskill.git
-cd openskill
-make build
-./build/openskill --help
+curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_darwin_arm64.tar.gz | tar xz
+sudo mv openskill /usr/local/bin/
 ```
 
-## Setup
-
-Get a free API key from [Groq](https://console.groq.com/) and set it:
-
+### Quick Start
 ```bash
-export GROQ_API_KEY=your_key_here
-```
+# Initialize OpenSkill
+openskill init
 
-## Usage
+# Set up your AI provider
+openskill config set provider groq    # or: openai, anthropic, ollama
+openskill config set api-key
 
-### Add a skill (AI-powered)
-
-```bash
+# Create a skill
 openskill add "code-review" -d "Reviews code for best practices"
-```
 
-The AI will generate a detailed description and relevant rules automatically.
-
-### Add a skill (manual)
-
-```bash
-openskill add "code-review" -d "Reviews code" --manual -r "Check security" -r "Check performance"
-```
-
-### List skills
-
-```bash
+# View skills
 openskill list
 ```
 
-### Show skill details
+## Skill Format
 
-```bash
-openskill show "code-review"
+Skills are stored as `SKILL.md` files in `.claude/skills/<name>/`:
+
+```markdown
+---
+name: code-review
+description: Comprehensive code review focusing on security
+---
+
+# code-review
+
+## Rules
+
+- Check for security vulnerabilities
+- Verify proper error handling
+- Ensure code follows conventions
 ```
-
-### Edit a skill
-
-```bash
-openskill edit "code-review" -d "New description"
-openskill edit "code-review" -r "New rule 1" -r "New rule 2"
-```
-
-### Remove a skill
-
-```bash
-openskill remove "code-review"
-```
-
-## Where are skills stored?
-
-Skills are saved to `.claude/skills/` in your current directory as YAML files.
 
 ## License
 
 MIT
-# openskill
-# openskill-fe

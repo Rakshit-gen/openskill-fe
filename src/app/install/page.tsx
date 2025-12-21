@@ -208,30 +208,57 @@ export default function InstallPage() {
                   <CodeBlock code={platformData[platform].command} />
                 </StepCard>
 
-                <StepCard number={2} title="Get Groq API Key">
+                <StepCard number={2} title="Choose Your AI Provider">
                   <p className="text-[#8B8B9E] mb-4">
-                    OpenSkill uses Groq for AI-powered skill generation. Get your free API key:
+                    OpenSkill supports multiple AI providers. Pick one:
                   </p>
-                  <ol className="list-decimal list-inside text-[#8B8B9E] space-y-2 mb-4">
-                    <li>Visit <a href="https://console.groq.com" target="_blank" rel="noopener noreferrer" className="text-[#FF6B35] hover:underline">console.groq.com</a></li>
-                    <li>Create a free account</li>
-                    <li>Generate an API key from the dashboard</li>
-                  </ol>
+                  <div className="overflow-x-auto mb-4">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-[#2A2A38]">
+                          <th className="text-left py-2 px-3 text-[#F5F5F0]">Provider</th>
+                          <th className="text-left py-2 px-3 text-[#F5F5F0]">Get API Key</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-[#8B8B9E]">
+                        <tr className="border-b border-[#2A2A38]">
+                          <td className="py-2 px-3 font-mono text-[#FF6B35]">Groq (default)</td>
+                          <td className="py-2 px-3"><a href="https://console.groq.com" target="_blank" rel="noopener noreferrer" className="text-[#00D9A5] hover:underline">console.groq.com</a> (free)</td>
+                        </tr>
+                        <tr className="border-b border-[#2A2A38]">
+                          <td className="py-2 px-3 font-mono text-[#FF6B35]">OpenAI</td>
+                          <td className="py-2 px-3"><a href="https://platform.openai.com" target="_blank" rel="noopener noreferrer" className="text-[#00D9A5] hover:underline">platform.openai.com</a></td>
+                        </tr>
+                        <tr className="border-b border-[#2A2A38]">
+                          <td className="py-2 px-3 font-mono text-[#FF6B35]">Anthropic</td>
+                          <td className="py-2 px-3"><a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" className="text-[#00D9A5] hover:underline">console.anthropic.com</a></td>
+                        </tr>
+                        <tr className="border-b border-[#2A2A38]">
+                          <td className="py-2 px-3 font-mono text-[#FF6B35]">Ollama</td>
+                          <td className="py-2 px-3">No API key (runs locally)</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <Button
                     className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
                     onClick={() => window.open("https://console.groq.com", "_blank")}
                   >
-                    Get Free API Key
+                    Get Free Groq API Key
                   </Button>
                 </StepCard>
 
-                <StepCard number={3} title="Configure API Key">
+                <StepCard number={3} title="Configure Your Provider">
                   <p className="text-[#8B8B9E] mb-4">
-                    Save your Groq API key using the built-in config command:
+                    Set your provider and API key:
                   </p>
-                  <CodeBlock code={`openskill config set api-key`} />
+                  <CodeBlock code={`# Set provider (groq is default)
+openskill config set provider groq
+
+# Set API key
+openskill config set api-key`} />
                   <p className="text-[#8B8B9E] text-sm mt-4">
-                    You&apos;ll be prompted to enter your key. This saves it to{" "}
+                    This saves to{" "}
                     <code className="text-[#FF6B35]">~/.openskill/config.yaml</code> and works across all terminal sessions.
                   </p>
                 </StepCard>
@@ -288,7 +315,7 @@ export default function InstallPage() {
               </li>
               <li className="flex items-center gap-2">
                 <CheckIcon />
-                <span>Groq API key (free) for AI features</span>
+                <span>API key from Groq, OpenAI, or Anthropic (or use local Ollama)</span>
               </li>
             </ul>
           </div>

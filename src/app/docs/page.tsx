@@ -18,6 +18,22 @@ const CheckIcon = () => (
   </svg>
 );
 
+const ChevronIcon = ({ open }: { open: boolean }) => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={`transition-transform duration-200 ${open ? "rotate-90" : ""}`}
+  >
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
 function CodeBlock({ code, language = "bash" }: { code: string; language?: string }) {
   const [copied, setCopied] = useState(false);
 
@@ -44,11 +60,13 @@ function CodeBlock({ code, language = "bash" }: { code: string; language?: strin
   );
 }
 
-function SidebarLink({ href, label, active }: { href: string; label: string; active: boolean }) {
+function SidebarLink({ href, label, active, indent = false }: { href: string; label: string; active: boolean; indent?: boolean }) {
   return (
     <a
       href={href}
-      className={`block px-3 py-2 text-sm rounded-md transition-colors ${
+      className={`block py-1.5 text-sm rounded-md transition-colors ${
+        indent ? "pl-6 pr-3" : "px-3"
+      } ${
         active
           ? "text-[#FF6B35] bg-[#FF6B35]/10"
           : "text-[#8B8B9E] hover:text-[#F5F5F0] hover:bg-[#1A1A24]"
@@ -59,29 +77,77 @@ function SidebarLink({ href, label, active }: { href: string; label: string; act
   );
 }
 
+function SidebarSection({
+  title,
+  items,
+  activeSection,
+  defaultOpen = false,
+}: {
+  title: string;
+  items: { id: string; label: string }[];
+  activeSection: string;
+  defaultOpen?: boolean;
+}) {
+  const hasActiveChild = items.some((item) => item.id === activeSection);
+  const [isOpen, setIsOpen] = useState(defaultOpen || hasActiveChild);
+
+  return (
+    <div className="mb-1">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-[#F5F5F0] hover:bg-[#1A1A24] rounded-md transition-colors"
+      >
+        <span>{title}</span>
+        <ChevronIcon open={isOpen} />
+      </button>
+      {isOpen && (
+        <div className="mt-1 space-y-0.5">
+          {items.map((item) => (
+            <SidebarLink
+              key={item.id}
+              href={`#${item.id}`}
+              label={item.label}
+              active={activeSection === item.id}
+              indent
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DocsPage() {
   const [activeSection, setActiveSection] = useState("overview");
 
-  const sections = [
-    { id: "overview", label: "Overview" },
-    { id: "installation", label: "Installation" },
-    { id: "configuration", label: "Configuration" },
-    { id: "commands", label: "Commands" },
-    { id: "init", label: "openskill init" },
-    { id: "add", label: "openskill add" },
-    { id: "list", label: "openskill list" },
-    { id: "show", label: "openskill show" },
-    { id: "edit", label: "openskill edit" },
-    { id: "remove", label: "openskill remove" },
-    { id: "validate", label: "openskill validate" },
-    { id: "history", label: "openskill history" },
-    { id: "rollback", label: "openskill rollback" },
-    { id: "config", label: "openskill config" },
-    { id: "skill-format", label: "Skill Format" },
-    { id: "skill-composition", label: "Skill Composition" },
-    { id: "ai-generation", label: "AI Generation" },
-    { id: "examples", label: "Examples" },
-  ];
+  const sidebarStructure = {
+    gettingStarted: [
+      { id: "overview", label: "Overview" },
+      { id: "installation", label: "Installation" },
+      { id: "configuration", label: "Configuration" },
+    ],
+    commands: [
+      { id: "commands", label: "Overview" },
+      { id: "init", label: "init" },
+      { id: "add", label: "add" },
+      { id: "list", label: "list" },
+      { id: "show", label: "show" },
+      { id: "edit", label: "edit" },
+      { id: "remove", label: "remove" },
+      { id: "validate", label: "validate" },
+      { id: "history", label: "history" },
+      { id: "rollback", label: "rollback" },
+      { id: "config", label: "config" },
+    ],
+    skills: [
+      { id: "skill-format", label: "Skill Format" },
+      { id: "skill-composition", label: "Composition" },
+    ],
+    advanced: [
+      { id: "ai-generation", label: "AI Generation" },
+      { id: "examples", label: "Examples" },
+    ],
+  };
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] relative">
@@ -95,14 +161,27 @@ export default function DocsPage() {
             <div className="sticky top-24">
               <h4 className="text-[#F5F5F0] font-semibold mb-4 px-3">Documentation</h4>
               <nav className="space-y-1">
-                {sections.map((section) => (
-                  <SidebarLink
-                    key={section.id}
-                    href={`#${section.id}`}
-                    label={section.label}
-                    active={activeSection === section.id}
-                  />
-                ))}
+                <SidebarSection
+                  title="Getting Started"
+                  items={sidebarStructure.gettingStarted}
+                  activeSection={activeSection}
+                  defaultOpen
+                />
+                <SidebarSection
+                  title="Commands"
+                  items={sidebarStructure.commands}
+                  activeSection={activeSection}
+                />
+                <SidebarSection
+                  title="Skills"
+                  items={sidebarStructure.skills}
+                  activeSection={activeSection}
+                />
+                <SidebarSection
+                  title="Advanced"
+                  items={sidebarStructure.advanced}
+                  activeSection={activeSection}
+                />
               </nav>
             </div>
           </aside>
@@ -156,35 +235,81 @@ sudo mv build/openskill /usr/local/bin/`} />
               <section id="configuration" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Configuration</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  OpenSkill uses Groq for AI-powered skill generation. You&apos;ll need to set up your
-                  API key to use the AI features.
+                  OpenSkill supports multiple AI providers for skill generation: Groq, OpenAI, Anthropic, and Ollama (local).
                 </p>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Get a Groq API Key</h3>
-                <ol className="list-decimal list-inside text-[#8B8B9E] space-y-2 mb-4">
-                  <li>Visit <a href="https://console.groq.com" className="text-[#FF6B35] hover:underline">console.groq.com</a></li>
-                  <li>Create a free account</li>
-                  <li>Generate an API key</li>
-                </ol>
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Supported Providers</h3>
+                <div className="overflow-x-auto mb-6">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#2A2A38]">
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Provider</th>
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Default Model</th>
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">API Key</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-[#8B8B9E]">
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">groq</td>
+                        <td className="py-3 px-4">llama-3.3-70b-versatile</td>
+                        <td className="py-3 px-4"><a href="https://console.groq.com" className="text-[#00D9A5] hover:underline">console.groq.com</a></td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">openai</td>
+                        <td className="py-3 px-4">gpt-4o-mini</td>
+                        <td className="py-3 px-4"><a href="https://platform.openai.com" className="text-[#00D9A5] hover:underline">platform.openai.com</a></td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">anthropic</td>
+                        <td className="py-3 px-4">claude-3-5-sonnet-20241022</td>
+                        <td className="py-3 px-4"><a href="https://console.anthropic.com" className="text-[#00D9A5] hover:underline">console.anthropic.com</a></td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">ollama</td>
+                        <td className="py-3 px-4">llama3.2</td>
+                        <td className="py-3 px-4">No API key (local)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Set Your API Key</h3>
-                <p className="text-[#8B8B9E] mb-4">
-                  Use the built-in config command to save your API key persistently:
-                </p>
-                <CodeBlock code={`openskill config set api-key`} />
-                <p className="text-[#8B8B9E] mt-4">
-                  You&apos;ll be prompted to enter your key. This saves it to{" "}
-                  <code className="text-[#FF6B35]">~/.openskill/config.yaml</code> and works across all terminal sessions.
-                </p>
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Set Your Provider</h3>
+                <CodeBlock code={`# Set provider (default: groq)
+openskill config set provider groq    # or: openai, anthropic, ollama
+
+# Set API key for your provider
+openskill config set api-key`} />
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Provider-Specific Setup</h3>
+                <CodeBlock code={`# Groq (default - free & fast)
+openskill config set provider groq
+openskill config set groq-api-key YOUR_KEY
+
+# OpenAI
+openskill config set provider openai
+openskill config set openai-api-key YOUR_KEY
+
+# Anthropic
+openskill config set provider anthropic
+openskill config set anthropic-api-key YOUR_KEY
+
+# Ollama (local - no API key needed)
+openskill config set provider ollama
+openskill config set ollama-model llama3.2`} />
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">View Configuration</h3>
                 <CodeBlock code={`openskill config list`} />
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Alternative: Environment Variable</h3>
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Environment Variables</h3>
                 <p className="text-[#8B8B9E] mb-4">
-                  You can also use an environment variable (takes precedence over config file):
+                  Environment variables take precedence over config file:
                 </p>
-                <CodeBlock code={`export GROQ_API_KEY=your_key_here`} />
+                <CodeBlock code={`OPENSKILL_PROVIDER=groq       # Provider selection
+GROQ_API_KEY=your_key         # Groq API key
+OPENAI_API_KEY=your_key       # OpenAI API key
+ANTHROPIC_API_KEY=your_key    # Anthropic API key
+OPENSKILL_MODEL=gpt-4o        # Override model
+OLLAMA_HOST=http://localhost:11434  # Custom Ollama endpoint`} />
               </section>
 
               {/* Commands Overview */}
