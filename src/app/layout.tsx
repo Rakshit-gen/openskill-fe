@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "Create and manage Claude skills with AI-powered content generation. Build powerful automation workflows in seconds.",
   keywords: ["Claude", "AI", "CLI", "skills", "automation", "developer tools"],
   authors: [{ name: "Rakshit-gen" }],
-  metadataBase: new URL("https://openskill.dev"),
+  metadataBase: new URL("https://openskill.online"),
   icons: {
     icon: "/favicon.svg",
     apple: "/logo.svg",
@@ -25,11 +25,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OpenSkill CLI",
     description: "AI-Powered Skill Management for Claude. Create and manage Claude skills with AI-powered content generation.",
+    url: "https://openskill.online",
     type: "website",
     siteName: "OpenSkill",
     images: [
       {
-        url: "/openskill.png",
+        url: "https://openskill.online/openskill.png",
         width: 1200,
         height: 630,
         alt: "OpenSkill - AI-Powered Skill Management for Claude",
@@ -40,7 +41,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "OpenSkill CLI",
     description: "AI-Powered Skill Management for Claude. Create and manage Claude skills with AI-powered content generation.",
-    images: ["/openskill.png"],
+    images: ["https://openskill.online/openskill.png"],
+    creator: "@Rakshit_gen",
   },
 };
 
