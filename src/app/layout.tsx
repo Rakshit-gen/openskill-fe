@@ -17,21 +17,30 @@ export const metadata: Metadata = {
   description: "Create and manage Claude skills with AI-powered content generation. Build powerful automation workflows in seconds.",
   keywords: ["Claude", "AI", "CLI", "skills", "automation", "developer tools"],
   authors: [{ name: "Rakshit-gen" }],
+  metadataBase: new URL("https://openskill.dev"),
   icons: {
     icon: "/favicon.svg",
     apple: "/logo.svg",
   },
   openGraph: {
     title: "OpenSkill CLI",
-    description: "AI-Powered Skill Management for Claude",
+    description: "AI-Powered Skill Management for Claude. Create and manage Claude skills with AI-powered content generation.",
     type: "website",
-    images: ["/logo.svg"],
+    siteName: "OpenSkill",
+    images: [
+      {
+        url: "/openskill.png",
+        width: 1200,
+        height: 630,
+        alt: "OpenSkill - AI-Powered Skill Management for Claude",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "OpenSkill CLI",
-    description: "AI-Powered Skill Management for Claude",
-    images: ["/logo.svg"],
+    description: "AI-Powered Skill Management for Claude. Create and manage Claude skills with AI-powered content generation.",
+    images: ["/openskill.png"],
   },
 };
 
