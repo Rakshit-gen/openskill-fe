@@ -396,23 +396,6 @@ function FeatureCard({
   );
 }
 
-// Command Example Component
-function CommandExample({
-  command,
-  description
-}: {
-  command: string;
-  description: string;
-}) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-2 py-3 border-b border-[#2A2A38] last:border-0">
-      <code className="font-mono text-sm text-[#FF6B35] bg-[#1A1A24] px-3 py-1 rounded whitespace-nowrap">
-        {command}
-      </code>
-      <span className="text-[#8B8B9E] text-sm">{description}</span>
-    </div>
-  );
-}
 
 // Animated Skill Demo Component
 function SkillInActionDemo() {
@@ -894,68 +877,101 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Commands Section */}
-      <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38]">
+      {/* Popular Skills Gallery */}
+      <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38] overflow-hidden">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
-                Simple, powerful commands
-              </h2>
-              <p className="text-[#8B8B9E] mb-8">
-                Intuitive CLI commands that get out of your way and let you focus on what matters.
-              </p>
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#1A1A24]/80 backdrop-blur-sm border border-[#2A2A38] text-[#8B8B9E] text-sm mb-6">
+              Get Started Fast
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
+              Popular skill templates
+            </h2>
+            <p className="text-[#8B8B9E] max-w-2xl mx-auto">
+              Start with battle-tested templates or create your own from scratch
+            </p>
+          </div>
 
-              <div className="space-y-1 stagger-fade-in">
-                <CommandExample
-                  command="openskill template use"
-                  description="Create skills from pre-built templates"
-                />
-                <CommandExample
-                  command="openskill add"
-                  description="Create a new skill with AI generation"
-                />
-                <CommandExample
-                  command="openskill test --mock"
-                  description="Test skills before deployment"
-                />
-                <CommandExample
-                  command="openskill improve"
-                  description="AI-powered skill improvements"
-                />
-                <CommandExample
-                  command="openskill sync --push"
-                  description="Sync skills to Git repository"
-                />
-                <CommandExample
-                  command="openskill export"
-                  description="Export to JSON, YAML, or Markdown"
-                />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Code Review - Real template */}
+            <div className="group relative bg-[#1A1A24] border border-[#2A2A38] rounded-xl p-5 hover:border-[#FF6B35]/50 transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[#FF6B35]/10 flex items-center justify-center text-[#FF6B35]">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                  </svg>
+                </div>
+                <code className="text-[#FF6B35] font-mono text-sm">code-review</code>
+              </div>
+              <p className="text-[#8B8B9E] text-sm mb-4">Review code for quality, bugs, and best practices</p>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">code</span>
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">review</span>
               </div>
             </div>
 
-            <div className="terminal-window hover-lift">
-              <div className="terminal-header">
-                <div className="terminal-dot bg-[#FF5F56]" />
-                <div className="terminal-dot bg-[#FFBD2E]" />
-                <div className="terminal-dot bg-[#27CA40]" />
-                <span className="ml-4 text-sm text-[#8B8B9E] font-mono">SKILL.md</span>
+            {/* Testing - Real template */}
+            <div className="group relative bg-[#1A1A24] border border-[#2A2A38] rounded-xl p-5 hover:border-[#00D9A5]/50 transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[#00D9A5]/10 flex items-center justify-center text-[#00D9A5]">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="9 11 12 14 22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                  </svg>
+                </div>
+                <code className="text-[#00D9A5] font-mono text-sm">testing</code>
               </div>
-              <div className="terminal-body">
-                <pre className="text-sm font-mono leading-relaxed">
-                  <span className="text-[#8B8B9E]">---</span>{"\n"}
-                  <span className="text-[#FF6B35]">name:</span> <span className="text-[#F5F5F0]">code-review</span>{"\n"}
-                  <span className="text-[#FF6B35]">description:</span> <span className="text-[#F5F5F0]">Comprehensive code review</span>{"\n"}
-                  <span className="text-[#8B8B9E]">---</span>{"\n\n"}
-                  <span className="text-[#F5F5F0]"># code-review</span>{"\n\n"}
-                  <span className="text-[#8B8B9E]">Review code for security, performance,</span>{"\n"}
-                  <span className="text-[#8B8B9E]">and maintainability best practices.</span>{"\n\n"}
-                  <span className="text-[#F5F5F0]">## Rules</span>{"\n\n"}
-                  <span className="text-[#8B8B9E]">- Check for security vulnerabilities</span>{"\n"}
-                  <span className="text-[#8B8B9E]">- Verify proper error handling</span>{"\n"}
-                  <span className="text-[#8B8B9E]">- Ensure code follows conventions</span>
-                </pre>
+              <p className="text-[#8B8B9E] text-sm mb-4">Write comprehensive test suites</p>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">testing</span>
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">quality</span>
               </div>
+            </div>
+
+            {/* Debugging - Real template */}
+            <div className="group relative bg-[#1A1A24] border border-[#2A2A38] rounded-xl p-5 hover:border-[#FFBD2E]/50 transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[#FFBD2E]/10 flex items-center justify-center text-[#FFBD2E]">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                  </svg>
+                </div>
+                <code className="text-[#FFBD2E] font-mono text-sm">debugging</code>
+              </div>
+              <p className="text-[#8B8B9E] text-sm mb-4">Systematic debugging and root cause analysis</p>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">debugging</span>
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">troubleshooting</span>
+              </div>
+            </div>
+
+            {/* Security Review - Real template */}
+            <div className="group relative bg-[#1A1A24] border border-[#2A2A38] rounded-xl p-5 hover:border-[#8B5CF6]/50 transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-lg bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                  </svg>
+                </div>
+                <code className="text-[#8B5CF6] font-mono text-sm">security-review</code>
+              </div>
+              <p className="text-[#8B8B9E] text-sm mb-4">Review code for security vulnerabilities</p>
+              <div className="flex flex-wrap gap-1.5">
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">security</span>
+                <span className="px-2 py-0.5 rounded text-xs bg-[#2A2A38] text-[#8B8B9E]">owasp</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Use template CTA */}
+          <div className="mt-12 text-center">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-3 bg-[#1A1A24] border border-[#2A2A38] rounded-xl sm:rounded-full px-6 py-4 sm:py-3">
+              <span className="text-[#8B8B9E]">Use a template:</span>
+              <code className="text-[#FF6B35] font-mono text-sm">openskill template use code-review</code>
             </div>
           </div>
         </div>
