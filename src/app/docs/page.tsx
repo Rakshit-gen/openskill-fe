@@ -140,13 +140,37 @@ export default function DocsPage() {
       { id: "edit", label: "edit" },
       { id: "remove", label: "remove" },
       { id: "validate", label: "validate" },
+    ],
+    templates: [
+      { id: "templates", label: "Overview" },
+      { id: "template-list", label: "template list" },
+      { id: "template-use", label: "template use" },
+    ],
+    versioning: [
       { id: "history", label: "history" },
       { id: "rollback", label: "rollback" },
-      { id: "config", label: "config" },
+      { id: "diff", label: "diff" },
+    ],
+    organization: [
+      { id: "tags", label: "Tags" },
+      { id: "groups", label: "Groups" },
+      { id: "workspace", label: "Workspaces" },
+    ],
+    importExport: [
+      { id: "export", label: "export" },
+      { id: "import", label: "import" },
+      { id: "sync", label: "sync" },
+    ],
+    ai: [
+      { id: "test", label: "test" },
+      { id: "improve", label: "improve" },
+      { id: "explain", label: "explain" },
     ],
     skills: [
       { id: "skill-format", label: "Skill Format" },
       { id: "skill-composition", label: "Composition" },
+      { id: "context-providers", label: "Context Providers" },
+      { id: "hooks", label: "Hooks" },
     ],
     advanced: [
       { id: "ai-generation", label: "AI Generation" },
@@ -173,8 +197,33 @@ export default function DocsPage() {
                   defaultOpen
                 />
                 <SidebarSection
-                  title="Commands"
+                  title="Core Commands"
                   items={sidebarStructure.commands}
+                  activeSection={activeSection}
+                />
+                <SidebarSection
+                  title="Templates"
+                  items={sidebarStructure.templates}
+                  activeSection={activeSection}
+                />
+                <SidebarSection
+                  title="Version History"
+                  items={sidebarStructure.versioning}
+                  activeSection={activeSection}
+                />
+                <SidebarSection
+                  title="Organization"
+                  items={sidebarStructure.organization}
+                  activeSection={activeSection}
+                />
+                <SidebarSection
+                  title="Import / Export"
+                  items={sidebarStructure.importExport}
+                  activeSection={activeSection}
+                />
+                <SidebarSection
+                  title="AI Commands"
+                  items={sidebarStructure.ai}
                   activeSection={activeSection}
                 />
                 <SidebarSection
@@ -202,11 +251,25 @@ export default function DocsPage() {
                   AI-powered content generation. It simplifies the process of building reusable
                   skill definitions that enhance Claude&apos;s capabilities.
                 </p>
-                <div className="flex gap-2 mb-8">
+                <div className="flex flex-wrap gap-2 mb-8">
                   <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">Go</Badge>
                   <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">CLI</Badge>
                   <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">AI-Powered</Badge>
+                  <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">Templates</Badge>
+                  <Badge className="bg-[#2A2A38] text-[#F5F5F0] hover-scale cursor-default">Version Control</Badge>
                 </div>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">What&apos;s New in v0.3.0</h3>
+                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
+                  <li><strong>Skill Templates</strong> - Pre-built templates for common use cases</li>
+                  <li><strong>Tags & Groups</strong> - Organize skills by category</li>
+                  <li><strong>Workspaces</strong> - Project-specific skill configuration</li>
+                  <li><strong>Import/Export</strong> - Share skills in JSON, YAML, or Markdown</li>
+                  <li><strong>AI Commands</strong> - Test, improve, and explain skills with AI</li>
+                  <li><strong>Sync</strong> - Back up skills to Git repositories</li>
+                  <li><strong>Context Providers</strong> - Define how skills gather context</li>
+                  <li><strong>Hooks</strong> - Pre/post execution commands</li>
+                </ul>
               </section>
 
               {/* Installation */}
@@ -214,24 +277,20 @@ export default function DocsPage() {
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Installation</h2>
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">macOS (Apple Silicon)</h3>
-                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_darwin_arm64.tar.gz | tar xz
+                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_arm64.tar.gz | tar xz
 sudo mv openskill /usr/local/bin/`} />
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">macOS (Intel)</h3>
-                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_darwin_amd64.tar.gz | tar xz
+                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_amd64.tar.gz | tar xz
 sudo mv openskill /usr/local/bin/`} />
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Linux (x86_64)</h3>
-                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_linux_amd64.tar.gz | tar xz
-sudo mv openskill /usr/local/bin/`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Linux (ARM64)</h3>
-                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_linux_arm64.tar.gz | tar xz
+                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_linux_amd64.tar.gz | tar xz
 sudo mv openskill /usr/local/bin/`} />
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">From Source</h3>
                 <CodeBlock code={`git clone https://github.com/rakshit-gen/openskill.git
-cd openskill
+cd openskill/OpenSkill-cli
 make build
 sudo mv build/openskill /usr/local/bin/`} />
               </section>
@@ -278,71 +337,50 @@ sudo mv build/openskill /usr/local/bin/`} />
                   </table>
                 </div>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Set Your Provider</h3>
-                <CodeBlock code={`# Set provider (default: groq)
-openskill config set provider groq    # or: openai, anthropic, ollama
-
-# Set API key for your provider
-openskill config set api-key`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Provider-Specific Setup</h3>
-                <CodeBlock code={`# Groq (default - free & fast)
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Quick Setup</h3>
+                <CodeBlock code={`# Set provider and API key
 openskill config set provider groq
-openskill config set groq-api-key YOUR_KEY
+openskill config set api-key
 
-# OpenAI
-openskill config set provider openai
-openskill config set openai-api-key YOUR_KEY
-
-# Anthropic
-openskill config set provider anthropic
-openskill config set anthropic-api-key YOUR_KEY
-
-# Ollama (local - no API key needed)
-openskill config set provider ollama
-openskill config set ollama-model llama3.2`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">View Configuration</h3>
-                <CodeBlock code={`openskill config list`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Environment Variables</h3>
-                <p className="text-[#8B8B9E] mb-4">
-                  Environment variables take precedence over config file:
-                </p>
-                <CodeBlock code={`OPENSKILL_PROVIDER=groq       # Provider selection
-GROQ_API_KEY=your_key         # Groq API key
-OPENAI_API_KEY=your_key       # OpenAI API key
-ANTHROPIC_API_KEY=your_key    # Anthropic API key
-OPENSKILL_MODEL=gpt-4o        # Override model
-OLLAMA_HOST=http://localhost:11434  # Custom Ollama endpoint`} />
+# View configuration
+openskill config list`} />
               </section>
 
               {/* Commands Overview */}
               <section id="commands" className="mb-16">
-                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Commands</h2>
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Commands Overview</h2>
                 <p className="text-[#8B8B9E] mb-6">
-                  OpenSkill provides comprehensive commands for managing your skills:
+                  OpenSkill v0.3.0 includes 20+ commands organized by category:
                 </p>
 
                 <div className="grid gap-4">
                   {[
                     { cmd: "init", desc: "Initialize OpenSkill in your project" },
-                    { cmd: "add", desc: "Create a new skill with optional AI generation" },
-                    { cmd: "list", desc: "List all available skills" },
-                    { cmd: "show", desc: "Display detailed information about a skill" },
+                    { cmd: "add", desc: "Create a new skill with AI generation" },
+                    { cmd: "list", desc: "List skills (with tag/group filters)" },
+                    { cmd: "show", desc: "Display skill details" },
                     { cmd: "edit", desc: "Modify an existing skill" },
                     { cmd: "remove", desc: "Delete a skill" },
-                    { cmd: "validate", desc: "Validate a skill's YAML structure" },
-                    { cmd: "history", desc: "Show version history of a skill" },
-                    { cmd: "rollback", desc: "Restore a skill to a previous version" },
-                    { cmd: "config", desc: "Manage OpenSkill configuration" },
+                    { cmd: "validate", desc: "Validate skill structure" },
+                    { cmd: "template", desc: "Manage skill templates" },
+                    { cmd: "history", desc: "Show version history" },
+                    { cmd: "rollback", desc: "Restore previous version" },
+                    { cmd: "diff", desc: "Compare skill versions" },
+                    { cmd: "tag", desc: "Manage skill tags" },
+                    { cmd: "group", desc: "Manage skill groups" },
+                    { cmd: "workspace", desc: "Project-specific config" },
+                    { cmd: "export", desc: "Export to JSON/YAML" },
+                    { cmd: "import", desc: "Import from file/URL" },
+                    { cmd: "sync", desc: "Sync with Git repository" },
+                    { cmd: "test", desc: "Test a skill with AI" },
+                    { cmd: "improve", desc: "AI-powered improvements" },
+                    { cmd: "explain", desc: "AI-powered explanation" },
                   ].map((item, index) => (
                     <div
                       key={item.cmd}
                       className="flex items-center gap-4 p-4 bg-[#1A1A24] border border-[#2A2A38] rounded-lg hover:border-[#FF6B35] hover-lift transition-all duration-300"
-                      style={{ animationDelay: `${index * 50}ms` }}
                     >
-                      <code className="text-[#FF6B35] font-mono">openskill {item.cmd}</code>
+                      <code className="text-[#FF6B35] font-mono min-w-[180px]">openskill {item.cmd}</code>
                       <span className="text-[#8B8B9E]">{item.desc}</span>
                     </div>
                   ))}
@@ -353,406 +391,370 @@ OLLAMA_HOST=http://localhost:11434  # Custom Ollama endpoint`} />
               <section id="init" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill init</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Initialize OpenSkill in your project. This is the recommended first command to run
-                  when setting up OpenSkill in a new project.
+                  Initialize OpenSkill in your project. Creates the necessary directory structure.
                 </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
                 <CodeBlock code={`openskill init`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">What It Does</h3>
-                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
-                  <li>Creates the <code className="text-[#FF6B35]">.claude/skills/</code> directory</li>
-                  <li>Optionally configures your Groq API key</li>
-                  <li>Creates an example skill to get you started</li>
-                  <li>Displays helpful guidance on using skills with Claude</li>
-                </ul>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example Output</h3>
-                <CodeBlock code={`$ openskill init
-
-  ╔═══════════════════════════════════════════════════════════╗
-  ║   ⚡ OpenSkill - Claude Skill Manager                     ║
-  ╚═══════════════════════════════════════════════════════════╝
-
-  [1/3] Setting up skills directory...
-        ✓ Created .claude/skills/
-
-  [2/3] Checking API configuration...
-        ✓ API key configured (gsk_...xxxx)
-
-  [3/3] Creating example skill...
-        ✓ Created example/SKILL.md
-
-  ╔═══════════════════════════════════════════════════════════╗
-  ║                    Setup Complete!                        ║
-  ╚═══════════════════════════════════════════════════════════╝`} />
               </section>
 
               {/* openskill add */}
               <section id="add" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill add</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Create a new skill. By default, uses AI to generate comprehensive descriptions and rules.
+                  Create a new skill with AI-powered content generation.
                 </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill add <name> -d <description> [flags]`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Flags</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#2A2A38]">
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Flag</th>
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-[#8B8B9E]">
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">-d, --desc</td>
-                        <td className="py-3 px-4">Skill description (required)</td>
-                      </tr>
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">-r, --rule</td>
-                        <td className="py-3 px-4">Add a rule (manual mode only, can be repeated)</td>
-                      </tr>
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">--manual</td>
-                        <td className="py-3 px-4">Skip AI generation, use provided values</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Examples</h3>
-                <CodeBlock code={`# AI-powered skill creation
+                <CodeBlock code={`# AI-powered creation
 openskill add "code-review" -d "Reviews code for best practices"
 
-# Manual skill creation
-openskill add "bug-finder" -d "Finds bugs" --manual -r "Check nulls" -r "Check edge cases"`} />
+# Manual creation
+openskill add "my-skill" -d "Description" --manual -r "Rule 1" -r "Rule 2"`} />
               </section>
 
               {/* openskill list */}
               <section id="list" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill list</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Display all skills in the current directory.
+                  List all skills with optional filtering by tag or group.
                 </p>
+                <CodeBlock code={`# List all skills
+openskill list
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill list`} />
+# Filter by tag
+openskill list --tag security
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Output</h3>
-                <CodeBlock code={`$ openskill list
-  code-review     Reviews code for best practices
-  bug-finder      Finds bugs in code
-  test-writer     Generates unit tests`} />
+# Filter by group
+openskill list --group development
+
+# Verbose output
+openskill list -v`} />
               </section>
 
               {/* openskill show */}
               <section id="show" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill show</h2>
-                <p className="text-[#8B8B9E] mb-4">
-                  Display detailed information about a specific skill.
-                </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill show <name>`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
-                <CodeBlock code={`$ openskill show "code-review"
-
-Name: code-review
-Description: Comprehensive code review focusing on security, performance, and maintainability
-Rules:
-  1. Check for security vulnerabilities (XSS, SQL injection, etc.)
-  2. Verify proper error handling and edge cases
-  3. Ensure code follows project conventions
-  4. Review test coverage and quality`} />
+                <CodeBlock code={`openskill show "code-review"`} />
               </section>
 
               {/* openskill edit */}
               <section id="edit" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill edit</h2>
-                <p className="text-[#8B8B9E] mb-4">
-                  Modify an existing skill&apos;s description or rules.
-                </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill edit <name> [flags]`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Flags</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#2A2A38]">
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Flag</th>
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-[#8B8B9E]">
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">-d, --desc</td>
-                        <td className="py-3 px-4">New description</td>
-                      </tr>
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">-r, --rule</td>
-                        <td className="py-3 px-4">Replace rules (can be repeated)</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Examples</h3>
-                <CodeBlock code={`# Update description
-openskill edit "code-review" -d "New description"
-
-# Replace rules
-openskill edit "code-review" -r "New rule 1" -r "New rule 2"`} />
+                <CodeBlock code={`openskill edit "code-review" -d "New description" -r "New rule"`} />
               </section>
 
               {/* openskill remove */}
               <section id="remove" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill remove</h2>
-                <p className="text-[#8B8B9E] mb-4">
-                  Delete a skill from the skills directory.
-                </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill remove <name>`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
-                <CodeBlock code={`$ openskill remove "old-skill"
-✓ Removed skill: old-skill`} />
+                <CodeBlock code={`openskill remove "old-skill"`} />
               </section>
 
               {/* openskill validate */}
               <section id="validate" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill validate</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Validate a skill&apos;s YAML structure and content before using it with Claude.
+                  Validate a skill&apos;s structure and check for common issues.
                 </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill validate <name>`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">What It Checks</h3>
-                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
-                  <li>YAML syntax validation</li>
-                  <li>Required fields (name, description)</li>
-                  <li>Rule format and content quality</li>
-                  <li>Best practices recommendations</li>
-                </ul>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
-                <CodeBlock code={`$ openskill validate "code-review"
-
-  ✓ Skill 'code-review' is valid
-
-  Skill Summary:
-  ─────────────
-  Name:        code-review
-  Description: Reviews code for best practices and security...
-  Rules:       5 defined`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Validation with Warnings</h3>
-                <CodeBlock code={`$ openskill validate "quick-skill"
-
-  ⚠ Validation Passed with Warnings: quick-skill
-
-  Warnings:
-  └─ Description is very short - add more detail for clarity
-  └─ Rule 1 is very short - be more specific`} />
+                <CodeBlock code={`openskill validate "code-review"`} />
               </section>
 
-              {/* openskill history */}
+              {/* Templates */}
+              <section id="templates" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Skill Templates</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  OpenSkill includes pre-built templates for common use cases. Templates provide
+                  professionally designed skills you can use immediately or customize.
+                </p>
+
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Available Templates</h3>
+                <div className="overflow-x-auto mb-6">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#2A2A38]">
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Template</th>
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Category</th>
+                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-[#8B8B9E]">
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">code-review</td>
+                        <td className="py-3 px-4">development</td>
+                        <td className="py-3 px-4">Review code for quality, bugs, and best practices</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">commit-message</td>
+                        <td className="py-3 px-4">git</td>
+                        <td className="py-3 px-4">Generate conventional commit messages</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">documentation</td>
+                        <td className="py-3 px-4">docs</td>
+                        <td className="py-3 px-4">Write clear technical documentation</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">testing</td>
+                        <td className="py-3 px-4">development</td>
+                        <td className="py-3 px-4">Write comprehensive test suites</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">debugging</td>
+                        <td className="py-3 px-4">development</td>
+                        <td className="py-3 px-4">Systematic debugging and root cause analysis</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">api-design</td>
+                        <td className="py-3 px-4">architecture</td>
+                        <td className="py-3 px-4">Design RESTful APIs</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">security-review</td>
+                        <td className="py-3 px-4">security</td>
+                        <td className="py-3 px-4">Review code for security vulnerabilities</td>
+                      </tr>
+                      <tr className="border-b border-[#2A2A38]">
+                        <td className="py-3 px-4 font-mono text-[#FF6B35]">refactoring</td>
+                        <td className="py-3 px-4">development</td>
+                        <td className="py-3 px-4">Improve code structure safely</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              {/* template list */}
+              <section id="template-list" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill template list</h2>
+                <CodeBlock code={`# List all templates
+openskill template list
+
+# Show template details
+openskill template show code-review`} />
+              </section>
+
+              {/* template use */}
+              <section id="template-use" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill template use</h2>
+                <CodeBlock code={`# Create skill from template
+openskill template use code-review
+
+# Create with custom name
+openskill template use code-review my-code-reviewer`} />
+              </section>
+
+              {/* history */}
               <section id="history" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill history</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Show the version history of a skill. Each time you edit a skill, the previous
-                  version is automatically saved.
+                  View version history for a skill. Versions are automatically saved when you edit.
                 </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill history <name>`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
-                <CodeBlock code={`$ openskill history "code-review"
-
-  Version History: code-review
-  ════════════════════════════════════════════
-
-  ● current     2025-01-15 14:32:00  (active)
-  ○ v2          2025-01-14 10:15:00
-  ○ v1          2025-01-13 09:00:00
-
-  To restore a version: openskill rollback code-review <version>`} />
+                <CodeBlock code={`openskill history "code-review"`} />
               </section>
 
-              {/* openskill rollback */}
+              {/* rollback */}
               <section id="rollback" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill rollback</h2>
-                <p className="text-[#8B8B9E] mb-4">
-                  Restore a skill to a previous version. The current version is automatically
-                  saved to history before the rollback.
-                </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Usage</h3>
-                <CodeBlock code={`openskill rollback <name> <version>`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Example</h3>
-                <CodeBlock code={`$ openskill rollback "code-review" v1
-
-  ✓ Restored 'code-review' to version 1
-
-  The previous version has been saved to history.
-  Use 'openskill show code-review' to view the restored skill.`} />
+                <CodeBlock code={`openskill rollback "code-review" 2`} />
               </section>
 
-              {/* openskill config */}
-              <section id="config" className="mb-16">
-                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill config</h2>
+              {/* diff */}
+              <section id="diff" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill diff</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Manage OpenSkill configuration. Settings are stored in{" "}
-                  <code className="text-[#FF6B35]">~/.openskill/config.yaml</code> and persist across terminal sessions.
+                  Compare different versions of a skill to see what changed.
                 </p>
+                <CodeBlock code={`# Compare current with latest saved version
+openskill diff "code-review"
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Subcommands</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#2A2A38]">
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Command</th>
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-[#8B8B9E]">
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">set &lt;key&gt; [value]</td>
-                        <td className="py-3 px-4">Set a configuration value</td>
-                      </tr>
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">get &lt;key&gt;</td>
-                        <td className="py-3 px-4">Get a configuration value</td>
-                      </tr>
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">list</td>
-                        <td className="py-3 px-4">List all configuration values</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+# Compare specific versions
+openskill diff "code-review" --v1 1 --v2 3`} />
+              </section>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Configuration Keys</h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#2A2A38]">
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Key</th>
-                        <th className="text-left py-3 px-4 text-[#F5F5F0]">Description</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-[#8B8B9E]">
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">api-key</td>
-                        <td className="py-3 px-4">Your Groq API key for AI features</td>
-                      </tr>
-                      <tr className="border-b border-[#2A2A38]">
-                        <td className="py-3 px-4 font-mono text-[#FF6B35]">model</td>
-                        <td className="py-3 px-4">LLM model to use (default: llama-3.3-70b-versatile)</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Examples</h3>
-                <CodeBlock code={`# Set API key (prompts for secure input)
-openskill config set api-key
-
-# Set API key directly
-openskill config set api-key gsk_your_key_here
-
-# Change the LLM model
-openskill config set model llama-3.1-8b-instant
-
-# View current configuration
-openskill config list
-
-# Get a specific value
-openskill config get api-key`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Environment Variables</h3>
-                <p className="text-[#8B8B9E]">
-                  Environment variables take precedence over config file values:
+              {/* Tags */}
+              <section id="tags" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Tags</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Organize skills with tags for flexible categorization.
                 </p>
-                <ul className="list-disc list-inside text-[#8B8B9E] mt-2 space-y-1">
-                  <li><code className="text-[#FF6B35]">GROQ_API_KEY</code> - Overrides api-key</li>
-                  <li><code className="text-[#FF6B35]">OPENSKILL_MODEL</code> - Overrides model</li>
-                </ul>
+                <CodeBlock code={`# List all tags
+openskill tag list
+
+# Show skills with a tag
+openskill tag show security
+
+# Add tags to a skill
+openskill tag add code-review quality security
+
+# Remove tags
+openskill tag remove code-review security`} />
+              </section>
+
+              {/* Groups */}
+              <section id="groups" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Groups</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Bundle related skills into groups.
+                </p>
+                <CodeBlock code={`# List all groups
+openskill group list
+
+# Show skills in a group
+openskill group show development
+
+# Add skill to a group
+openskill group set code-review development
+
+# Remove from group
+openskill group unset code-review`} />
+              </section>
+
+              {/* Workspace */}
+              <section id="workspace" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Workspaces</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Configure project-specific skill settings.
+                </p>
+                <CodeBlock code={`# Initialize workspace
+openskill workspace init my-project
+
+# Show workspace config
+openskill workspace show
+
+# Add skill to workspace
+openskill workspace add code-review
+
+# Set variable override
+openskill workspace set code-review max_issues 10`} />
+              </section>
+
+              {/* Export */}
+              <section id="export" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill export</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Export skills to JSON, YAML, or Markdown.
+                </p>
+                <CodeBlock code={`# Export to stdout
+openskill export code-review --format json
+
+# Export to file
+openskill export code-review --format yaml -o skill.yaml`} />
+              </section>
+
+              {/* Import */}
+              <section id="import" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill import</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Import skills from files, URLs, or stdin.
+                </p>
+                <CodeBlock code={`# Import from file
+openskill import skill.json
+
+# Import from URL
+openskill import https://example.com/skills/review.yaml
+
+# Import from stdin
+cat skill.json | openskill import -`} />
+              </section>
+
+              {/* Sync */}
+              <section id="sync" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill sync</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Synchronize skills with a Git repository for backup and sharing.
+                </p>
+                <CodeBlock code={`# Set remote repository
+openskill sync --remote git@github.com:user/skills.git
+
+# Push changes
+openskill sync --push
+
+# Pull changes
+openskill sync --pull`} />
+              </section>
+
+              {/* Test */}
+              <section id="test" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill test</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Test a skill with a sample prompt using AI.
+                </p>
+                <CodeBlock code={`# Test with a prompt
+openskill test code-review --prompt "Review this function: func add(a, b int) int { return a + b }"
+
+# Mock mode (no API call)
+openskill test code-review --mock`} />
+              </section>
+
+              {/* Improve */}
+              <section id="improve" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill improve</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Use AI to analyze and suggest improvements for a skill.
+                </p>
+                <CodeBlock code={`# Get improvement suggestions
+openskill improve code-review
+
+# Apply improvements automatically
+openskill improve code-review --apply`} />
+              </section>
+
+              {/* Explain */}
+              <section id="explain" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">openskill explain</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Get an AI-powered explanation of what a skill does.
+                </p>
+                <CodeBlock code={`# Basic explanation
+openskill explain code-review
+
+# Verbose with examples
+openskill explain code-review --verbose`} />
               </section>
 
               {/* Skill Format */}
               <section id="skill-format" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Skill Format</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Skills are Markdown files with YAML frontmatter, stored in directories under{" "}
-                  <code className="text-[#FF6B35]">.claude/skills/</code>. Each skill is a folder containing
-                  a <code className="text-[#FF6B35]">SKILL.md</code> file.
-                </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Directory Structure</h3>
-                <CodeBlock code={`.claude/
-└── skills/
-    ├── code-review/
-    │   └── SKILL.md
-    ├── bug-finder/
-    │   └── SKILL.md
-    └── test-writer/
-        └── SKILL.md`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">SKILL.md Format</h3>
-                <p className="text-[#8B8B9E] mb-4">
-                  Each skill file starts with YAML frontmatter (metadata) followed by Markdown content:
+                  Skills are Markdown files with YAML frontmatter in <code className="text-[#FF6B35]">.claude/skills/</code>.
                 </p>
                 <CodeBlock code={`---
 name: code-review
-description: Comprehensive code review focusing on security and maintainability
+description: Reviews code for quality and best practices
+tags:
+  - code
+  - review
+  - quality
+group: development
+version: "1.0.0"
+author: Your Name
+output_format: markdown
+context:
+  files:
+    - package.json
+  globs:
+    - "src/**/*.ts"
+  commands:
+    - git diff --cached
+hooks:
+  pre:
+    - npm run lint
+  post:
+    - echo "Review complete"
 ---
 
 # code-review
 
-Comprehensive code review focusing on security, performance,
-and maintainability best practices.
+Reviews code for quality issues, potential bugs, and adherence to best practices.
 
 ## Rules
 
-- Check for security vulnerabilities (XSS, SQL injection, etc.)
-- Verify proper error handling and edge cases
-- Ensure code follows project conventions
-- Review test coverage and quality`} language="markdown" />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Why This Format?</h3>
-                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
-                  <li>Claude natively discovers and reads SKILL.md files</li>
-                  <li>YAML frontmatter provides metadata for skill discovery</li>
-                  <li>Markdown body allows rich, structured instructions</li>
-                  <li>Directory-based structure supports additional files per skill</li>
-                </ul>
+- Check for security vulnerabilities
+- Verify proper error handling
+- Ensure consistent code style`} language="markdown" />
               </section>
 
               {/* Skill Composition */}
               <section id="skill-composition" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Skill Composition</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  OpenSkill supports skill composition through <code className="text-[#FF6B35]">extends</code> and{" "}
-                  <code className="text-[#FF6B35]">includes</code> fields, allowing you to build complex skills
-                  from simpler components.
-                </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Extending Skills</h3>
-                <p className="text-[#8B8B9E] mb-4">
-                  Use <code className="text-[#FF6B35]">extends</code> in the frontmatter to inherit from a parent skill:
+                  Build complex skills from simpler ones using extends and includes.
                 </p>
                 <CodeBlock code={`---
 name: security-review
@@ -762,64 +764,58 @@ extends: code-review
 
 # security-review
 
-Security-focused code review that extends the base code-review skill.
+Security-focused extension of the base code review.
 
 ## Rules
 
-- Focus specifically on OWASP Top 10 vulnerabilities
-- Check authentication and authorization flows
-- Verify input validation and sanitization`} language="markdown" />
+- Focus on OWASP Top 10
+- Check authentication flows`} language="markdown" />
+              </section>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Including Multiple Skills</h3>
+              {/* Context Providers */}
+              <section id="context-providers" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Context Providers</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  Use <code className="text-[#FF6B35]">includes</code> to merge multiple skills together:
+                  Define how skills gather context from your project.
                 </p>
-                <CodeBlock code={`---
-name: full-review
-description: Comprehensive review combining multiple aspects
-includes:
-  - code-review
-  - security-review
-  - performance-review
----
+                <CodeBlock code={`context:
+  files:               # Specific files to read
+    - README.md
+    - package.json
+  globs:               # Glob patterns to match
+    - "src/**/*.ts"
+    - "tests/**/*.test.ts"
+  commands:            # Commands to execute
+    - git status
+    - npm run lint --silent
+  urls:                # URLs to fetch
+    - https://api.example.com/schema
+  environment:         # Environment variables
+    - NODE_ENV
+    - API_URL`} language="yaml" />
+              </section>
 
-# full-review
-
-Comprehensive review combining multiple skill aspects.
-
-## Rules
-
-- Provide a summary score for each review area`} language="markdown" />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Composition Benefits</h3>
-                <ul className="list-disc list-inside text-[#8B8B9E] space-y-2">
-                  <li>Build specialized skills from general ones</li>
-                  <li>Avoid duplicating common rules across skills</li>
-                  <li>Create skill libraries that can be reused</li>
-                  <li>Compose complex behaviors from simple building blocks</li>
-                </ul>
+              {/* Hooks */}
+              <section id="hooks" className="mb-16">
+                <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Hooks</h2>
+                <p className="text-[#8B8B9E] mb-4">
+                  Define commands to run before and after skill execution.
+                </p>
+                <CodeBlock code={`hooks:
+  pre:                 # Run before skill
+    - npm run build
+    - npm run lint
+  post:                # Run after skill
+    - npm run test
+    - git add .`} language="yaml" />
               </section>
 
               {/* AI Generation */}
               <section id="ai-generation" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">AI Generation</h2>
                 <p className="text-[#8B8B9E] mb-4">
-                  OpenSkill uses Groq&apos;s LLM to automatically generate comprehensive skill content
-                  from simple descriptions.
-                </p>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">How It Works</h3>
-                <ol className="list-decimal list-inside text-[#8B8B9E] space-y-2 mb-4">
-                  <li>You provide a skill name and brief description</li>
-                  <li>OpenSkill sends the info to Groq&apos;s API</li>
-                  <li>The AI generates a detailed description and relevant rules</li>
-                  <li>The enhanced skill is saved to your skills directory</li>
-                </ol>
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Fallback Behavior</h3>
-                <p className="text-[#8B8B9E] mb-4">
-                  If the API is unavailable or you use <code className="text-[#FF6B35]">--manual</code>,
-                  OpenSkill falls back to using your provided description and rules directly.
+                  OpenSkill uses AI to generate comprehensive skill content from simple descriptions.
+                  The generator creates 8-12 specific, actionable rules that are falsifiable and domain-specific.
                 </p>
               </section>
 
@@ -827,47 +823,34 @@ Comprehensive review combining multiple skill aspects.
               <section id="examples" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Examples</h2>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Creating a Code Review Skill</h3>
-                <CodeBlock code={`$ openskill add "code-review" -d "Reviews code for best practices"
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Quick Start Workflow</h3>
+                <CodeBlock code={`# Initialize
+openskill init
 
-Generating skill with AI...
+# Create from template
+openskill template use code-review
 
-✓ Added skill: code-review
-  Description: Comprehensive code review focusing on security, performance, and maintainability
-  Rules:
-    1. Check for security vulnerabilities (XSS, SQL injection, etc.)
-    2. Verify proper error handling and edge cases
-    3. Ensure code follows project conventions
-    4. Review test coverage and quality`} />
+# Customize with tags
+openskill tag add code-review security quality
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Creating a Documentation Skill</h3>
-                <CodeBlock code={`$ openskill add "doc-writer" -d "Writes technical documentation"
+# Test the skill
+openskill test code-review --prompt "Review this code..."
 
-Generating skill with AI...
+# Export for sharing
+openskill export code-review --format yaml -o my-review.yaml`} />
 
-✓ Added skill: doc-writer
-  Description: Creates clear, comprehensive technical documentation for code and APIs
-  Rules:
-    1. Include code examples for all functions
-    2. Document parameters and return values
-    3. Add usage examples and edge cases
-    4. Keep language clear and concise`} />
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Team Collaboration</h3>
+                <CodeBlock code={`# Set up sync
+openskill sync --remote git@github.com:team/skills.git
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Workflow Example</h3>
-                <CodeBlock code={`# Create a skill
-openskill add "api-designer" -d "Designs RESTful APIs"
+# Make changes
+openskill add "team-style" -d "Team coding standards"
 
-# View all skills
-openskill list
+# Push to team
+openskill sync --push
 
-# Check skill details
-openskill show "api-designer"
-
-# Update the skill
-openskill edit "api-designer" -r "Follow REST conventions" -r "Use proper HTTP methods"
-
-# Remove if no longer needed
-openskill remove "api-designer"`} />
+# Teammates can pull
+openskill sync --pull`} />
               </section>
             </div>
           </main>

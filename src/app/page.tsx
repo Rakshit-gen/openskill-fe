@@ -57,6 +57,29 @@ const GitBranchIcon = () => (
   </svg>
 );
 
+const TemplateIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+    <line x1="3" x2="21" y1="9" y2="9" />
+    <line x1="9" x2="9" y1="21" y2="9" />
+  </svg>
+);
+
+const TagIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z" />
+    <path d="M7 7h.01" />
+  </svg>
+);
+
+const CloudSyncIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
+    <path d="m9.2 22 3-3-3-3" />
+    <path d="M12.2 19h-5" />
+  </svg>
+);
+
 const GitHubIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -325,10 +348,10 @@ function InstallCommand() {
   const [platform, setPlatform] = useState<"mac-arm" | "mac-intel" | "linux" | "linux-arm">("mac-arm");
 
   const commands = {
-    "mac-arm": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_darwin_arm64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
-    "mac-intel": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_darwin_amd64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
-    "linux": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_linux_amd64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
-    "linux-arm": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_linux_arm64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
+    "mac-arm": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_arm64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
+    "mac-intel": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_amd64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
+    "linux": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_linux_amd64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
+    "linux-arm": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_linux_arm64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
   };
 
   const handleCopy = () => {
@@ -472,7 +495,7 @@ export default function Home() {
               className="mb-6 text-[#8B8B9E] border-[#2A2A38] bg-[#1A1A24] hover-wiggle cursor-default"
             >
               <SparklesIcon />
-              <span className="ml-2">Multi-AI Skill Generation</span>
+              <span className="ml-2">v0.3.0 - Templates, Sync & More</span>
             </Badge>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#F5F5F0] mb-6 tracking-tight">
@@ -564,40 +587,58 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <FeatureCard
-              icon={<SparklesIcon />}
-              title="Multi-AI Providers"
-              description="Choose from Groq, OpenAI, Anthropic, or Ollama. Switch providers with a single command."
+              icon={<TemplateIcon />}
+              title="Skill Templates"
+              description="8 pre-built templates for code review, testing, debugging, API design, and more."
               index={0}
             />
             <FeatureCard
-              icon={<BoltIcon />}
-              title="Lightning Fast"
-              description="Built in Go for maximum performance. Create and manage skills in milliseconds."
+              icon={<SparklesIcon />}
+              title="AI-Powered"
+              description="Test, improve, and explain skills using AI. Get suggestions to make your skills better."
               index={1}
             />
             <FeatureCard
-              icon={<LayersIcon />}
-              title="SKILL.md Format"
-              description="Skills are stored as Markdown with YAML frontmatter for Claude's native skill discovery."
+              icon={<TagIcon />}
+              title="Tags & Groups"
+              description="Organize skills with tags and groups. Filter by category, find skills instantly."
               index={2}
+            />
+            <FeatureCard
+              icon={<CloudSyncIcon />}
+              title="Git Sync"
+              description="Back up skills to Git repositories. Share with your team, sync across machines."
+              index={3}
+            />
+            <FeatureCard
+              icon={<LayersIcon />}
+              title="Import/Export"
+              description="Export to JSON, YAML, or Markdown. Import from files, URLs, or other sources."
+              index={4}
             />
             <FeatureCard
               icon={<HistoryIcon />}
               title="Version History"
-              description="Track every change with automatic versioning. Roll back to any previous version instantly."
-              index={3}
+              description="Track every change with auto-versioning. Diff and rollback to any previous version."
+              index={5}
+            />
+            <FeatureCard
+              icon={<BoltIcon />}
+              title="Context Providers"
+              description="Define files, globs, commands, and URLs that skills use to gather context."
+              index={6}
             />
             <FeatureCard
               icon={<GitBranchIcon />}
-              title="Skill Composition"
-              description="Extend and combine skills with 'extends' and 'includes' for powerful skill hierarchies."
-              index={4}
+              title="Workspaces"
+              description="Project-specific skill configuration. Override variables per project."
+              index={7}
             />
             <FeatureCard
               icon={<ShieldIcon />}
-              title="Local First"
-              description="Your skills stay on your machine. No cloud sync required, full control over your data."
-              index={5}
+              title="Pre/Post Hooks"
+              description="Run commands before and after skill execution. Integrate with your workflow."
+              index={8}
             />
           </div>
         </div>
@@ -606,18 +647,24 @@ export default function Home() {
       {/* Stats Section */}
       <section className="relative z-10 py-16 px-6 border-t border-[#2A2A38]">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             <div className="text-center group hover-lift cursor-default">
               <div className="text-4xl font-bold text-[#FF6B35] mb-2">
-                <AnimatedCounter end={4} suffix="+" />
+                <AnimatedCounter end={8} suffix="" />
               </div>
-              <p className="text-[#8B8B9E] text-sm">AI Providers</p>
+              <p className="text-[#8B8B9E] text-sm">Templates</p>
             </div>
             <div className="text-center group hover-lift cursor-default">
               <div className="text-4xl font-bold text-[#FF6B35] mb-2">
-                <AnimatedCounter end={10} suffix="+" />
+                <AnimatedCounter end={20} suffix="+" />
               </div>
-              <p className="text-[#8B8B9E] text-sm">CLI Commands</p>
+              <p className="text-[#8B8B9E] text-sm">Commands</p>
+            </div>
+            <div className="text-center group hover-lift cursor-default">
+              <div className="text-4xl font-bold text-[#FF6B35] mb-2">
+                <AnimatedCounter end={4} suffix="" />
+              </div>
+              <p className="text-[#8B8B9E] text-sm">AI Providers</p>
             </div>
             <div className="text-center group hover-lift cursor-default">
               <div className="text-4xl font-bold text-[#FF6B35] mb-2">
@@ -649,28 +696,28 @@ export default function Home() {
 
               <div className="space-y-1 stagger-fade-in">
                 <CommandExample
-                  command="openskill init"
-                  description="Initialize OpenSkill in your project"
+                  command="openskill template use"
+                  description="Create skills from pre-built templates"
                 />
                 <CommandExample
                   command="openskill add"
-                  description="Create a new skill with AI-generated content"
+                  description="Create a new skill with AI generation"
                 />
                 <CommandExample
-                  command="openskill validate"
-                  description="Validate skill structure"
+                  command="openskill test --mock"
+                  description="Test skills before deployment"
                 />
                 <CommandExample
-                  command="openskill history"
-                  description="View version history of a skill"
+                  command="openskill improve"
+                  description="AI-powered skill improvements"
                 />
                 <CommandExample
-                  command="openskill rollback"
-                  description="Restore a skill to a previous version"
+                  command="openskill sync --push"
+                  description="Sync skills to Git repository"
                 />
                 <CommandExample
-                  command="openskill config"
-                  description="Switch AI providers instantly"
+                  command="openskill export"
+                  description="Export to JSON, YAML, or Markdown"
                 />
               </div>
             </div>
