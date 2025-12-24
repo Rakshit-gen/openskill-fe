@@ -54,7 +54,7 @@ export function Navbar() {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="https://docs.anthropic.com/en/docs/claude-code"
+              href="https://claude.com/product/claude-code"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#8B8B9E] hover:text-[#FF6B35] transition-colors"
