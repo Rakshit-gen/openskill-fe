@@ -42,10 +42,8 @@ npm run build
 
 ## CLI Installation
 
-### macOS (Apple Silicon)
 ```bash
-curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.1.0/openskill_darwin_arm64.tar.gz | tar xz
-sudo mv openskill /usr/local/bin/
+curl -fsSL openskill.online/api/install | bash
 ```
 
 ### Quick Start

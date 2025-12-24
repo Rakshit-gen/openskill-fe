@@ -99,13 +99,6 @@ const CheckIcon = () => (
   </svg>
 );
 
-const ArrowRightIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
-);
-
 // Provider logos
 const GroqLogo = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -327,55 +320,27 @@ function TerminalDemo() {
 // Install Command Component
 function InstallCommand() {
   const [copied, setCopied] = useState(false);
-  const [platform, setPlatform] = useState<"mac-arm" | "mac-intel" | "linux" | "linux-arm">("mac-arm");
 
-  const commands = {
-    "mac-arm": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_arm64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
-    "mac-intel": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_amd64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
-    "linux": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_linux_amd64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
-    "linux-arm": "curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_linux_arm64.tar.gz | tar xz && sudo mv openskill /usr/local/bin/",
-  };
+  const command = "curl -fsSL openskill.online/api/install | bash";
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(commands[platform]);
+    navigator.clipboard.writeText(command);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="flex items-center justify-center gap-2 mb-3">
-        {[
-          { id: "mac-arm", label: "macOS (Apple Silicon)" },
-          { id: "mac-intel", label: "macOS (Intel)" },
-          { id: "linux", label: "Linux (x86)" },
-          { id: "linux-arm", label: "Linux (ARM)" },
-        ].map((p) => (
-          <button
-            key={p.id}
-            onClick={() => setPlatform(p.id as typeof platform)}
-            className={`px-3 py-1 text-xs rounded transition-colors cursor-pointer ${
-              platform === p.id
-                ? "bg-[#FF6B35] text-[#0A0A0F]"
-                : "bg-[#2A2A38] text-[#8B8B9E] hover:text-[#F5F5F0]"
-            }`}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
-      <div className="flex items-center gap-2 bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 font-mono text-sm">
-        <span className="text-[#8B8B9E]">$</span>
-        <code className="text-[#F5F5F0] flex-1 overflow-x-auto scrollbar-hide whitespace-nowrap text-xs">
-          {commands[platform]}
-        </code>
-        <button
-          onClick={handleCopy}
-          className="p-2 hover:bg-[#2A2A38] rounded transition-colors text-[#8B8B9E] hover:text-[#F5F5F0] flex-shrink-0"
-        >
-          {copied ? <CheckIcon /> : <CopyIcon />}
-        </button>
-      </div>
+    <div
+      onClick={handleCopy}
+      className="group inline-flex items-center gap-2 sm:gap-3 bg-[#1A1A24]/80 backdrop-blur-sm border border-[#2A2A38] hover:border-[#FF6B35]/50 rounded-lg sm:rounded-full px-3 sm:px-5 py-2 sm:py-3 font-mono text-sm cursor-pointer transition-all duration-300 max-w-full"
+    >
+      <span className="text-[#8B8B9E] hidden sm:inline">$</span>
+      <code className="text-[#F5F5F0] text-xs sm:text-sm md:text-lg truncate sm:whitespace-nowrap">
+        {command}
+      </code>
+      <span className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors flex-shrink-0">
+        {copied ? <CheckIcon /> : <CopyIcon />}
+      </span>
     </div>
   );
 }
@@ -504,10 +469,10 @@ function SkillInActionDemo() {
 
   return (
     <div ref={ref} className="relative">
-      <div className="grid lg:grid-cols-2 gap-8 items-stretch">
+      <div className="grid lg:grid-cols-2 gap-8">
         {/* Code Editor Side */}
-        <div className="relative flex flex-col">
-          <div className="terminal-window flex-1 flex flex-col">
+        <div className="relative flex flex-col h-[400px]">
+          <div className="terminal-window h-full flex flex-col">
             <div className="terminal-header">
               <div className="terminal-dot bg-[#FF5F56]" />
               <div className="terminal-dot bg-[#FFBD2E]" />
@@ -560,7 +525,7 @@ function SkillInActionDemo() {
         </div>
 
         {/* Claude Response Side */}
-        <div className="flex flex-col min-h-[320px]">
+        <div className="flex flex-col h-[400px]">
           {/* Command Input */}
           <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 mb-4">
             <div className="flex items-center gap-2 text-sm font-mono">
@@ -679,7 +644,7 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative z-10 py-24 px-6">
+      <section className="relative z-10 py-16 px-6 mb-10">
         <FloatingProviders />
         <div className="max-w-6xl mx-auto">
           <div className={`text-center mb-16 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
@@ -695,28 +660,23 @@ export default function Home() {
               Create once, invoke forever, never explain yourself twice.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <Link href="/install">
-                <Button
-                  size="lg"
-                  className="bg-[#FF6B35] cursor-pointer hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-semibold px-8 hover-scale"
-                >
-                  Install Now
-                  <ArrowRightIcon />
-                </Button>
-              </Link>
-              <Link href="/docs">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="border-[#2A2A38] cursor-pointer text-[#F5F5F0] hover:bg-[#F5F5F0] hover-scale"
-                >
-                  View Documentation
-                </Button>
-              </Link>
-            </div>
-
             <InstallCommand />
+
+            <p className="text-[#8B8B9E] text-sm mt-6">
+              or{" "}
+              <Link href="/docs" className="text-[#FF6B35] hover:underline">
+                read the docs
+              </Link>
+              {" "}·{" "}
+              <a
+                href="/install"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#FF6B35] hover:underline"
+              >
+                how to install
+              </a>
+            </p>
           </div>
 
           {/* Terminal Demo */}
@@ -727,114 +687,100 @@ export default function Home() {
       </section>
 
       {/* What are Skills? - Beginner Section */}
-      <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38]">
+      <section className="relative z-10 py-32 px-6 border-t border-[#2A2A38]">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 text-[#8B8B9E] border-[#2A2A38] bg-[#1A1A24]">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#1A1A24]/80 backdrop-blur-sm border border-[#2A2A38] text-[#8B8B9E] text-sm mb-6">
               New to Skills?
-            </Badge>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#F5F5F0] mb-6">
               What are Claude Skills?
             </h2>
-            <p className="text-[#8B8B9E] max-w-2xl mx-auto text-lg">
-              Skills are reusable instructions that teach Claude how to behave in specific situations.
-              Think of them as <span className="text-[#FF6B35]">recipes for AI behavior</span>.
+            <p className="text-xl text-[#8B8B9E] max-w-2xl mx-auto leading-relaxed">
+              Skills are reusable instructions that teach Claude how to behave.
+              Think of them as <span className="text-[#FF6B35] font-medium">recipes for AI behavior</span>.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="grid md:grid-cols-2 gap-6 mb-16">
             {/* Without Skills */}
-            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                <span className="text-[#8B8B9E] font-medium">Without Skills</span>
+            <div className="group relative bg-gradient-to-br from-[#1A1A24] to-[#0A0A0F] border border-[#2A2A38] rounded-2xl p-8 transition-all duration-300 hover:border-[#FF5F56]/30">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-3 h-3 rounded-full bg-[#FF5F56] shadow-lg shadow-[#FF5F56]/30"></div>
+                <span className="text-[#8B8B9E] font-medium text-lg">Without Skills</span>
               </div>
-              <div className="space-y-4 text-sm">
-                <div className="bg-[#0A0A0F] rounded p-3">
-                  <p className="text-[#8B8B9E]">You:</p>
-                  <p className="text-[#F5F5F0]">&quot;Review my code and check for security issues, also make sure error handling is good, and follow our team&apos;s coding standards which are...&quot;</p>
+              <div className="space-y-4">
+                <div className="bg-[#0A0A0F] rounded-xl p-4 border border-[#2A2A38]">
+                  <p className="text-[#8B8B9E] text-xs uppercase tracking-wider mb-2">Every time you ask:</p>
+                  <p className="text-[#F5F5F0] text-sm leading-relaxed">&quot;Review my code and check for security issues, also make sure error handling is good, and follow our team&apos;s coding standards which are...&quot;</p>
                 </div>
-                <p className="text-[#8B8B9E] text-center italic">Repeat every time...</p>
+                <p className="text-[#8B8B9E] text-center text-sm flex items-center justify-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF5F56]">
+                    <path d="M17 1l4 4-4 4"/>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                    <path d="M7 23l-4-4 4-4"/>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                  </svg>
+                  Repeat every single time...
+                </p>
               </div>
             </div>
 
             {/* With Skills */}
-            <div className="bg-[#1A1A24] border border-[#FF6B35]/30 rounded-lg p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-3 h-3 rounded-full bg-[#27CA40]"></div>
-                <span className="text-[#FF6B35] font-medium">With Skills</span>
+            <div className="group relative bg-gradient-to-br from-[#1A1A24] to-[#0A0A0F] border border-[#FF6B35]/30 rounded-2xl p-8 transition-all duration-300 hover:border-[#FF6B35]/50 hover:shadow-lg hover:shadow-[#FF6B35]/5">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-3 h-3 rounded-full bg-[#27CA40] shadow-lg shadow-[#27CA40]/30"></div>
+                <span className="text-[#FF6B35] font-medium text-lg">With OpenSkill</span>
               </div>
-              <div className="space-y-4 text-sm">
-                <div className="bg-[#0A0A0F] rounded p-3">
-                  <p className="text-[#8B8B9E]">You:</p>
-                  <p className="text-[#F5F5F0]">&quot;/code-review&quot;</p>
+              <div className="space-y-4">
+                <div className="bg-[#0A0A0F] rounded-xl p-4 border border-[#2A2A38]">
+                  <p className="text-[#8B8B9E] text-xs uppercase tracking-wider mb-2">Just type:</p>
+                  <p className="text-[#FF6B35] text-xl font-mono font-medium">/code-review</p>
                 </div>
-                <p className="text-[#00D9A5] text-center">Claude already knows what to do!</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Claude Code Requirement */}
-          <div className="bg-gradient-to-r from-[#2A2A38] to-[#1A1A24] border border-[#2A2A38] rounded-xl p-6 md:p-8">
-            <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-2xl bg-[#0A0A0F] border border-[#2A2A38] flex items-center justify-center">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-[#FF6B35]">
-                    <path d="M17.304 3.541h-3.672l6.696 16.918h3.672l-6.696-16.918zm-10.608 0L0 20.459h3.744l1.368-3.6h6.624l1.368 3.6h3.744L10.152 3.541H6.696zm.456 10.62 2.328-6.12 2.328 6.12H7.152z" fill="currentColor"/>
+                <p className="text-[#00D9A5] text-center text-sm flex items-center justify-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#00D9A5]">
+                    <path d="M20 6 9 17l-5-5"/>
                   </svg>
-                </div>
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-                  <h3 className="text-xl font-semibold text-[#F5F5F0]">Requires Claude Code</h3>
-                  <Badge className="bg-[#FF6B35]/20 text-[#FF6B35] border-0 text-xs">Required</Badge>
-                </div>
-                <p className="text-[#8B8B9E] mb-4">
-                  OpenSkill creates skills for <span className="text-[#F5F5F0]">Claude Code</span> - Anthropic&apos;s official CLI for Claude.
-                  Make sure you have it installed before using OpenSkill.
+                  Claude already knows what to do!
                 </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
-                  <a
-                    href="https://claude.com/product/claude-code"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button
-                      size="sm"
-                      className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-medium hover-scale"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-2">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                        <polyline points="15 3 21 3 21 9" />
-                        <line x1="10" x2="21" y1="14" y2="3" />
-                      </svg>
-                      Get Claude Code
-                    </Button>
-                  </a>
-                  <span className="text-[#8B8B9E] text-sm">or</span>
-                  <code className="text-[#FF6B35] bg-[#0A0A0F] px-3 py-1.5 rounded-lg text-sm font-mono">
-                  curl -fsSL openskill.online/api/install | bash
-                  </code>
-                </div>
               </div>
             </div>
           </div>
 
+          {/* Claude Code Requirement - Minimal */}
+          <div className="text-center">
+            <p className="text-[#8B8B9E] mb-4">
+              Works with <span className="text-[#F5F5F0] font-medium">Claude Code</span> — Anthropic&apos;s official CLI
+            </p>
+            <a
+              href="https://claude.com/product/claude-code"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-[#FF6B35] hover:text-[#FF8F6B] transition-colors text-sm"
+            >
+              Get Claude Code
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" x2="21" y1="14" y2="3" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Skill in Action Demo */}
-      <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38]">
+      <section className="relative z-10 py-32 px-6 border-t border-[#2A2A38]">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 text-[#8B8B9E] border-[#2A2A38] bg-[#1A1A24]">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#1A1A24]/80 backdrop-blur-sm border border-[#2A2A38] text-[#8B8B9E] text-sm mb-6">
               Live Demo
-            </Badge>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#F5F5F0] mb-6">
               See it in action
             </h2>
-            <p className="text-[#8B8B9E] max-w-xl mx-auto">
-              Watch how the <code className="text-[#FF6B35] bg-[#1A1A24] px-2 py-1 rounded">/code-review</code> skill catches security vulnerabilities in real-time
+            <p className="text-xl text-[#8B8B9E] max-w-xl mx-auto">
+              Watch how <code className="text-[#FF6B35] font-mono">/code-review</code> catches vulnerabilities in real-time
             </p>
           </div>
 
@@ -842,31 +788,32 @@ export default function Home() {
         </div>
       </section>
 
+      
       {/* Provider Showcase */}
-      <section className="relative z-10 py-16 px-6 border-t border-[#2A2A38]">
+      <section className="relative z-10 py-20 px-6 border-t border-[#2A2A38]">
         <div className="max-w-4xl mx-auto">
-          <p className="text-center text-[#8B8B9E] mb-8">Powered by your favorite AI providers</p>
-          <div className="flex flex-wrap items-center justify-center gap-12">
-            <div className="group flex flex-col items-center gap-2 hover-lift cursor-default">
-              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors animate-logo-1">
+          <p className="text-center text-[#8B8B9E] text-sm uppercase tracking-wider mb-10">Powered by your favorite AI providers</p>
+          <div className="flex flex-wrap items-center justify-center gap-16">
+            <div className="group flex flex-col items-center gap-3 cursor-default transition-transform duration-300 hover:scale-110">
+              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors duration-300">
                 <GroqLogo />
               </div>
               <span className="text-sm text-[#8B8B9E] group-hover:text-[#F5F5F0] transition-colors">Groq</span>
             </div>
-            <div className="group flex flex-col items-center gap-2 hover-lift cursor-default">
-              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors animate-logo-2">
+            <div className="group flex flex-col items-center gap-3 cursor-default transition-transform duration-300 hover:scale-110">
+              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors duration-300">
                 <OpenAILogo />
               </div>
               <span className="text-sm text-[#8B8B9E] group-hover:text-[#F5F5F0] transition-colors">OpenAI</span>
             </div>
-            <div className="group flex flex-col items-center gap-2 hover-lift cursor-default">
-              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors animate-logo-3">
+            <div className="group flex flex-col items-center gap-3 cursor-default transition-transform duration-300 hover:scale-110">
+              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors duration-300">
                 <AnthropicLogo />
               </div>
               <span className="text-sm text-[#8B8B9E] group-hover:text-[#F5F5F0] transition-colors">Anthropic</span>
             </div>
-            <div className="group flex flex-col items-center gap-2 hover-lift cursor-default">
-              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors animate-logo-4">
+            <div className="group flex flex-col items-center gap-3 cursor-default transition-transform duration-300 hover:scale-110">
+              <div className="text-[#8B8B9E] group-hover:text-[#FF6B35] transition-colors duration-300">
                 <OllamaLogo />
               </div>
               <span className="text-sm text-[#8B8B9E] group-hover:text-[#F5F5F0] transition-colors">Ollama</span>

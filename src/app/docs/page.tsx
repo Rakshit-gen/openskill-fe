@@ -276,23 +276,12 @@ export default function DocsPage() {
               <section id="installation" className="mb-16">
                 <h2 className="text-2xl font-bold text-[#F5F5F0] mb-4">Installation</h2>
 
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">macOS (Apple Silicon)</h3>
-                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_arm64.tar.gz | tar xz
-sudo mv openskill /usr/local/bin/`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">macOS (Intel)</h3>
-                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_darwin_amd64.tar.gz | tar xz
-sudo mv openskill /usr/local/bin/`} />
-
-                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Linux (x86_64)</h3>
-                <CodeBlock code={`curl -L https://github.com/rakshit-gen/openskill/releases/download/v0.3.0/openskill_linux_amd64.tar.gz | tar xz
-sudo mv openskill /usr/local/bin/`} />
+                <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">Quick Install (macOS / Linux)</h3>
+                <CodeBlock code={`curl -fsSL openskill.online/api/install | bash`} />
 
                 <h3 className="text-lg font-semibold text-[#F5F5F0] mt-6 mb-3">From Source</h3>
                 <CodeBlock code={`git clone https://github.com/rakshit-gen/openskill.git
-cd openskill/OpenSkill-cli
-make build
-sudo mv build/openskill /usr/local/bin/`} />
+cd openskill && make build && sudo make install`} />
               </section>
 
               {/* Configuration */}

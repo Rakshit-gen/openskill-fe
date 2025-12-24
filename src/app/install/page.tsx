@@ -40,8 +40,7 @@ const platformData: Record<Platform, { label: string; command: string; icon: Rea
   "source": {
     label: "From Source",
     command: `git clone https://github.com/rakshit-gen/openskill.git
-cd openskill/OpenSkill-cli
-make build && sudo make install`,
+cd openskill && make build && sudo make install`,
     icon: <TerminalIcon />,
   },
 };
