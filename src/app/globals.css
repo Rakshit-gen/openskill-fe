@@ -546,3 +546,15 @@
 .hover-wiggle:hover {
   animation: wiggle 0.3s ease-in-out;
 }
+
+/* Scan animation for code analysis */
+@keyframes scan {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.animate-scan {
+  animation: scan 2s ease-in-out infinite;
+}

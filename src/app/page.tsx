@@ -132,47 +132,6 @@ const OllamaLogo = () => (
   </svg>
 );
 
-// Animated counter component
-function AnimatedCounter({ end, duration = 1000, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    let startTime: number;
-    const step = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      setCount(Math.floor(progress * end));
-      if (progress < 1) {
-        requestAnimationFrame(step);
-      }
-    };
-    requestAnimationFrame(step);
-  }, [isVisible, end, duration]);
-
-  return <span ref={ref}>{count}{suffix}</span>;
-}
-
 // Floating providers component
 function FloatingProviders() {
   return (
@@ -467,6 +426,217 @@ function CommandExample({
   );
 }
 
+// Animated Skill Demo Component
+function SkillInActionDemo() {
+  const [phase, setPhase] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Phases: 0=idle, 1=typing command, 2=skill activated, 3=analyzing, 4=showing issues, 5=complete
+  const totalPhases = 6;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const durations = [1000, 1500, 1000, 2000, 2500, 3000];
+
+    const timer = setTimeout(() => {
+      setPhase((prev) => (prev + 1) % totalPhases);
+    }, durations[phase]);
+
+    return () => clearTimeout(timer);
+  }, [phase, isVisible]);
+
+  const codeLines = [
+    { num: 1, code: "function processPayment(amount, card) {", indent: 0 },
+    { num: 2, code: "  const result = eval(card.data);", indent: 1, issue: "security" },
+    { num: 3, code: "  db.query(`SELECT * FROM users WHERE id=${userId}`);", indent: 1, issue: "sql" },
+    { num: 4, code: "  if (amount > 0) {", indent: 1 },
+    { num: 5, code: "    return charge(amount);", indent: 2 },
+    { num: 6, code: "  }", indent: 1 },
+    { num: 7, code: "}", indent: 0 },
+  ];
+
+  const issues = [
+    { line: 2, type: "Critical", message: "eval() is dangerous - code injection risk", color: "#FF5F56" },
+    { line: 3, type: "High", message: "SQL injection vulnerability detected", color: "#FFBD2E" },
+  ];
+
+  return (
+    <div ref={ref} className="relative">
+      <div className="grid lg:grid-cols-2 gap-8 items-stretch">
+        {/* Code Editor Side */}
+        <div className="relative flex flex-col">
+          <div className="terminal-window flex-1 flex flex-col">
+            <div className="terminal-header">
+              <div className="terminal-dot bg-[#FF5F56]" />
+              <div className="terminal-dot bg-[#FFBD2E]" />
+              <div className="terminal-dot bg-[#27CA40]" />
+              <span className="ml-4 text-sm text-[#8B8B9E] font-mono">payment.js</span>
+              {phase >= 2 && (
+                <span className="ml-auto text-xs text-[#FF6B35] animate-pulse">
+                  /code-review active
+                </span>
+              )}
+            </div>
+            <div className="terminal-body font-mono text-sm flex-1">
+              {codeLines.map((line, idx) => {
+                const hasIssue = line.issue && phase >= 4;
+                const isHighlighted = hasIssue && phase >= 4;
+
+                return (
+                  <div
+                    key={line.num}
+                    className={`flex items-start gap-3 py-0.5 transition-all duration-500 ${
+                      isHighlighted ? "bg-[#FF5F56]/10 -mx-4 px-4 rounded" : ""
+                    }`}
+                    style={{ animationDelay: `${idx * 100}ms` }}
+                  >
+                    <span className="text-[#8B8B9E] w-6 text-right flex-shrink-0 select-none">
+                      {line.num}
+                    </span>
+                    <span className={`${isHighlighted ? "text-[#FF5F56]" : "text-[#F5F5F0]"}`}>
+                      {line.code}
+                    </span>
+                    {isHighlighted && (
+                      <span className="ml-auto text-[#FF5F56] animate-pulse">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Scanning overlay */}
+          {phase === 3 && (
+            <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-lg">
+              <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#FF6B35] to-transparent animate-scan" />
+            </div>
+          )}
+        </div>
+
+        {/* Claude Response Side */}
+        <div className="flex flex-col min-h-[320px]">
+          {/* Command Input */}
+          <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 mb-4">
+            <div className="flex items-center gap-2 text-sm font-mono">
+              <span className="text-[#8B8B9E]">&gt;</span>
+              <span className="text-[#F5F5F0]">
+                {phase >= 1 ? "/code-review" : ""}
+                {phase === 1 && <span className="inline-block w-2 h-4 bg-[#FF6B35] ml-0.5 animate-terminal-blink" />}
+              </span>
+              {phase >= 2 && (
+                <span className="ml-2 text-[#00D9A5] text-xs">✓ Skill activated</span>
+              )}
+            </div>
+          </div>
+
+          {/* Claude Analysis */}
+          <div className={`bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 flex-1 ${phase >= 3 ? 'animate-slide-in-bottom' : ''}`}>
+            {phase < 3 ? (
+              <div className="flex items-center justify-center h-full text-[#8B8B9E] text-sm">
+                <span className="opacity-50">Waiting for command...</span>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 rounded-full bg-[#FF6B35] flex items-center justify-center">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A0A0F">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                  </div>
+                  <span className="text-[#F5F5F0] font-medium text-sm">Claude</span>
+                  {phase === 3 && (
+                    <span className="ml-auto text-[#8B8B9E] text-xs flex items-center gap-1">
+                      <span className="inline-block w-1.5 h-1.5 bg-[#FF6B35] rounded-full animate-pulse" />
+                      Analyzing...
+                    </span>
+                  )}
+                </div>
+
+                {phase >= 4 && (
+                  <div className="space-y-3">
+                    <p className="text-[#8B8B9E] text-sm">
+                      Found <span className="text-[#FF5F56] font-medium">2 security issues</span> in payment.js:
+                    </p>
+
+                    {issues.map((issue, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-[#0A0A0F] rounded-lg p-3 border-l-2 animate-slide-in-left"
+                        style={{
+                          borderColor: issue.color,
+                          animationDelay: `${idx * 200}ms`,
+                          animationFillMode: 'both'
+                        }}
+                      >
+                        <div className="flex items-center gap-2 mb-1">
+                          <span
+                            className="text-xs font-medium px-1.5 py-0.5 rounded"
+                            style={{ backgroundColor: `${issue.color}20`, color: issue.color }}
+                          >
+                            {issue.type}
+                          </span>
+                          <span className="text-[#8B8B9E] text-xs">Line {issue.line}</span>
+                        </div>
+                        <p className="text-[#F5F5F0] text-sm">{issue.message}</p>
+                      </div>
+                    ))}
+
+                    {phase >= 5 && (
+                      <div className="pt-2 border-t border-[#2A2A38] mt-4 animate-slide-in-bottom">
+                        <p className="text-[#00D9A5] text-sm flex items-center gap-2">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>
+                          Suggested fix: Use parameterized queries and avoid eval()
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Status indicator */}
+          <div className="flex items-center justify-center gap-2 text-xs text-[#8B8B9E] mt-4">
+            {[0, 1, 2, 3, 4, 5].map((p) => (
+              <div
+                key={p}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  p === phase ? "bg-[#FF6B35] scale-125" : p < phase ? "bg-[#00D9A5]" : "bg-[#2A2A38]"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [mounted, setMounted] = useState(false);
 
@@ -587,192 +757,71 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Claude Code Requirement */}
+          <div className="bg-gradient-to-r from-[#2A2A38] to-[#1A1A24] border border-[#2A2A38] rounded-xl p-6 md:p-8">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 rounded-2xl bg-[#0A0A0F] border border-[#2A2A38] flex items-center justify-center">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-[#FF6B35]">
+                    <path d="M17.304 3.541h-3.672l6.696 16.918h3.672l-6.696-16.918zm-10.608 0L0 20.459h3.744l1.368-3.6h6.624l1.368 3.6h3.744L10.152 3.541H6.696zm.456 10.62 2.328-6.12 2.328 6.12H7.152z" fill="currentColor"/>
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                  <h3 className="text-xl font-semibold text-[#F5F5F0]">Requires Claude Code</h3>
+                  <Badge className="bg-[#FF6B35]/20 text-[#FF6B35] border-0 text-xs">Required</Badge>
+                </div>
+                <p className="text-[#8B8B9E] mb-4">
+                  OpenSkill creates skills for <span className="text-[#F5F5F0]">Claude Code</span> - Anthropic&apos;s official CLI for Claude.
+                  Make sure you have it installed before using OpenSkill.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
+                  <a
+                    href="https://docs.anthropic.com/en/docs/claude-code"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button
+                      size="sm"
+                      className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-medium hover-scale"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mr-2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" x2="21" y1="14" y2="3" />
+                      </svg>
+                      Get Claude Code
+                    </Button>
+                  </a>
+                  <span className="text-[#8B8B9E] text-sm">or</span>
+                  <code className="text-[#FF6B35] bg-[#0A0A0F] px-3 py-1.5 rounded-lg text-sm font-mono">
+                    npm install -g @anthropic-ai/claude-code
+                  </code>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* How to Use Skills - Step by Step */}
+      {/* Skill in Action Demo */}
       <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38]">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 text-[#8B8B9E] border-[#2A2A38] bg-[#1A1A24]">
+              Live Demo
+            </Badge>
             <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
-              Get started in 3 steps
+              See it in action
             </h2>
             <p className="text-[#8B8B9E] max-w-xl mx-auto">
-              From zero to productive in under a minute
+              Watch how the <code className="text-[#FF6B35] bg-[#1A1A24] px-2 py-1 rounded">/code-review</code> skill catches security vulnerabilities in real-time
             </p>
           </div>
 
-          {/* Steps */}
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div className="relative">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold text-xl">
-                  1
-                </div>
-                <div>
-                  <h3 className="text-[#F5F5F0] font-semibold text-lg">Initialize</h3>
-                  <p className="text-[#8B8B9E] text-sm">Set up OpenSkill in your project</p>
-                </div>
-              </div>
-              <div className="terminal-window">
-                <div className="terminal-header">
-                  <div className="terminal-dot bg-[#FF5F56]" />
-                  <div className="terminal-dot bg-[#FFBD2E]" />
-                  <div className="terminal-dot bg-[#27CA40]" />
-                </div>
-                <div className="terminal-body text-sm">
-                  <p className="text-[#F5F5F0]">$ openskill init</p>
-                  <p className="text-[#8B8B9E] mt-2">Setting up skills directory...</p>
-                  <p className="text-[#00D9A5]">✓ Created .claude/skills/</p>
-                  <p className="text-[#00D9A5]">✓ Ready to go!</p>
-                </div>
-              </div>
-              {/* Connector line (hidden on mobile) */}
-              <div className="hidden lg:block absolute top-6 left-full w-8 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#2A2A38]" style={{ marginLeft: '-1rem' }} />
-            </div>
-
-            {/* Step 2 */}
-            <div className="relative">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold text-xl">
-                  2
-                </div>
-                <div>
-                  <h3 className="text-[#F5F5F0] font-semibold text-lg">Create a Skill</h3>
-                  <p className="text-[#8B8B9E] text-sm">Use AI or a template</p>
-                </div>
-              </div>
-              <div className="terminal-window">
-                <div className="terminal-header">
-                  <div className="terminal-dot bg-[#FF5F56]" />
-                  <div className="terminal-dot bg-[#FFBD2E]" />
-                  <div className="terminal-dot bg-[#27CA40]" />
-                </div>
-                <div className="terminal-body text-sm">
-                  <p className="text-[#F5F5F0]">$ openskill add &quot;code-review&quot;</p>
-                  <p className="text-[#8B8B9E] mt-2">Generating with AI...</p>
-                  <p className="text-[#00D9A5]">✓ Created code-review skill</p>
-                  <p className="text-[#8B8B9E] mt-1">  4 rules • security focus</p>
-                </div>
-              </div>
-              {/* Connector line */}
-              <div className="hidden lg:block absolute top-6 left-full w-8 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#2A2A38]" style={{ marginLeft: '-1rem' }} />
-            </div>
-
-            {/* Step 3 */}
-            <div className="relative">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold text-xl">
-                  3
-                </div>
-                <div>
-                  <h3 className="text-[#F5F5F0] font-semibold text-lg">Use It</h3>
-                  <p className="text-[#8B8B9E] text-sm">Invoke in Claude Code</p>
-                </div>
-              </div>
-              <div className="terminal-window">
-                <div className="terminal-header">
-                  <div className="terminal-dot bg-[#FF5F56]" />
-                  <div className="terminal-dot bg-[#FFBD2E]" />
-                  <div className="terminal-dot bg-[#27CA40]" />
-                </div>
-                <div className="terminal-body text-sm">
-                  <p className="text-[#8B8B9E]"># In Claude Code:</p>
-                  <p className="text-[#F5F5F0] mt-2">&gt; /code-review</p>
-                  <p className="text-[#00D9A5] mt-2">Claude now reviews your code</p>
-                  <p className="text-[#00D9A5]">with your custom rules!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Popular Skills Examples */}
-          <div className="mt-20">
-            <h3 className="text-xl font-semibold text-[#F5F5F0] text-center mb-8">
-              Popular skills developers use
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
-                      <path d="m9 9 5 12 1.8-5.2L21 14Z" />
-                      <path d="M7.2 2.2 8 5.1" />
-                      <path d="m5.1 8-2.9-.8" />
-                      <path d="M14 4.1 12 6" />
-                      <path d="m6 12-1.9 2" />
-                    </svg>
-                  </div>
-                  <code className="text-[#FF6B35] font-mono text-sm">/code-review</code>
-                </div>
-                <p className="text-[#8B8B9E] text-sm">Security audits, best practices, and performance tips for every PR</p>
-              </div>
-
-              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
-                      <line x1="6" x2="6" y1="3" y2="15" />
-                      <circle cx="18" cy="6" r="3" />
-                      <circle cx="6" cy="18" r="3" />
-                      <path d="M18 9a9 9 0 0 1-9 9" />
-                    </svg>
-                  </div>
-                  <code className="text-[#FF6B35] font-mono text-sm">/commit</code>
-                </div>
-                <p className="text-[#8B8B9E] text-sm">Conventional commits that tell the story of your changes</p>
-              </div>
-
-              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
-                      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                      <polyline points="14,2 14,8 20,8" />
-                      <line x1="16" x2="8" y1="13" y2="13" />
-                      <line x1="16" x2="8" y1="17" y2="17" />
-                      <line x1="10" x2="8" y1="9" y2="9" />
-                    </svg>
-                  </div>
-                  <code className="text-[#FF6B35] font-mono text-sm">/docs</code>
-                </div>
-                <p className="text-[#8B8B9E] text-sm">Auto-generate READMEs, API docs, and inline comments</p>
-              </div>
-
-              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
-                      <path d="m9 12 2 2 4-4" />
-                      <path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z" />
-                      <path d="M22 19H2" />
-                    </svg>
-                  </div>
-                  <code className="text-[#FF6B35] font-mono text-sm">/test</code>
-                </div>
-                <p className="text-[#8B8B9E] text-sm">Unit tests with edge cases, mocks, and full coverage</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick tip */}
-          <div className="mt-12 bg-gradient-to-r from-[#FF6B35]/10 to-transparent border border-[#FF6B35]/20 rounded-lg p-6 flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#FF6B35]/20 flex items-center justify-center flex-shrink-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 16v-4" />
-                <path d="M12 8h.01" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-[#F5F5F0] font-medium mb-1">Pro tip</p>
-              <p className="text-[#8B8B9E] text-sm">
-                Skills are stored in <code className="text-[#FF6B35] bg-[#1A1A24] px-1.5 py-0.5 rounded">.claude/skills/</code> as Markdown files.
-                Commit them to Git to share with your team, or use <code className="text-[#FF6B35] bg-[#1A1A24] px-1.5 py-0.5 rounded">openskill sync</code> to back them up.
-              </p>
-            </div>
-          </div>
+          <SkillInActionDemo />
         </div>
       </section>
 
@@ -877,44 +926,6 @@ export default function Home() {
               description="Run commands before and after skill execution. Integrate with your workflow."
               index={8}
             />
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="relative z-10 py-16 px-6 border-t border-[#2A2A38]">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-            <div className="text-center group hover-lift cursor-default">
-              <div className="text-4xl font-bold text-[#FF6B35] mb-2">
-                <AnimatedCounter end={8} suffix="" />
-              </div>
-              <p className="text-[#8B8B9E] text-sm">Templates</p>
-            </div>
-            <div className="text-center group hover-lift cursor-default">
-              <div className="text-4xl font-bold text-[#FF6B35] mb-2">
-                <AnimatedCounter end={20} suffix="+" />
-              </div>
-              <p className="text-[#8B8B9E] text-sm">Commands</p>
-            </div>
-            <div className="text-center group hover-lift cursor-default">
-              <div className="text-4xl font-bold text-[#FF6B35] mb-2">
-                <AnimatedCounter end={4} suffix="" />
-              </div>
-              <p className="text-[#8B8B9E] text-sm">AI Providers</p>
-            </div>
-            <div className="text-center group hover-lift cursor-default">
-              <div className="text-4xl font-bold text-[#FF6B35] mb-2">
-                <AnimatedCounter end={100} suffix="%" />
-              </div>
-              <p className="text-[#8B8B9E] text-sm">Local & Private</p>
-            </div>
-            <div className="text-center group hover-lift cursor-default">
-              <div className="text-4xl font-bold text-[#FF6B35] mb-2">
-                <AnimatedCounter end={0} suffix="$" />
-              </div>
-              <p className="text-[#8B8B9E] text-sm">Open Source</p>
-            </div>
           </div>
         </div>
       </section>
