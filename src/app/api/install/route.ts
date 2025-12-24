@@ -65,9 +65,9 @@ if [ -z "$VERSION" ]; then
     cd "$TEMP_DIR"
     echo "  Cloning repository..."
     git clone --depth 1 "https://github.com/\${REPO}.git" openskill
-    cd openskill/OpenSkill-cli
+    cd openskill
     echo "  Building..."
-    go build -o "$BINARY_NAME" ./cmd/openskill
+    go build -o "$BINARY_NAME" ./cmd/openskill/main.go
     echo "  Installing to \${INSTALL_DIR}..."
     sudo mv "$BINARY_NAME" "\${INSTALL_DIR}/\${BINARY_NAME}"
     cd /
@@ -94,8 +94,8 @@ else
         TEMP_DIR=$(mktemp -d)
         cd "$TEMP_DIR"
         git clone --depth 1 "https://github.com/\${REPO}.git" openskill
-        cd openskill/OpenSkill-cli
-        go build -o "$BINARY_NAME" ./cmd/openskill
+        cd openskill
+        go build -o "$BINARY_NAME" ./cmd/openskill/main.go
         sudo mv "$BINARY_NAME" "\${INSTALL_DIR}/\${BINARY_NAME}"
         cd /
         rm -rf "$TEMP_DIR"
