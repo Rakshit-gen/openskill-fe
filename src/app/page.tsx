@@ -633,9 +633,9 @@ export default function Home() {
           <div className={`text-center mb-16 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
             <SkillCycle />
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#F5F5F0] mb-6 tracking-tight">
+            <h1 className="text-4xl sm:text-4xl lg:text-7xl font-bold text-[#F5F5F0] mb-6 tracking-tight">
               Claude forgets.<br />
-              <span className="text-[#FF6B35]">OpenSkill doesn&apos;t.</span>
+              <span className="text-[#FF6B35] ">OpenSkill doesn&apos;t.</span>
             </h1>
 
             <p className="text-xl text-[#8B8B9E] max-w-2xl mx-auto mb-10 leading-relaxed">
