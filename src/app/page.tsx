@@ -669,13 +669,13 @@ export default function Home() {
             </Badge>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#F5F5F0] mb-6 tracking-tight">
-              Build Claude Skills<br />
-              <span className="text-[#FF6B35]">in Seconds</span>
+              Claude forgets.<br />
+              <span className="text-[#FF6B35]">OpenSkill doesn&apos;t.</span>
             </h1>
 
             <p className="text-xl text-[#8B8B9E] max-w-2xl mx-auto mb-10 leading-relaxed">
-              The command-line tool that lets you create, manage, and share
-              Claude skills with AI-powered content generation.
+              Turn your best prompts into permanent slash commands.
+              Create once, invoke forever, never explain yourself twice.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
@@ -1001,10 +1001,10 @@ export default function Home() {
       <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38]">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
-            Ready to supercharge your Claude workflow?
+            Your workflows deserve to be remembered.
           </h2>
           <p className="text-[#8B8B9E] mb-8 text-lg">
-            Get started in under a minute. No account required.
+            Stop re-explaining yourself. Start in under a minute.
           </p>
 
           <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-8 mb-8 hover-lift">
