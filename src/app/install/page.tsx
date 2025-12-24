@@ -224,6 +224,22 @@ openskill config set api-key`} />
                   </p>
                   <CodeBlock code={`openskill --help`} />
                 </StepCard>
+
+                <StepCard number={5} title="Enable Tab Completion (Optional)">
+                  <p className="text-[#8B8B9E] mb-4">
+                    Add autocompletion for faster command entry:
+                  </p>
+                  <CodeBlock code={`# For Zsh (default on macOS)
+echo 'source <(openskill completion zsh)' >> ~/.zshrc
+source ~/.zshrc
+
+# For Bash
+echo 'source <(openskill completion bash)' >> ~/.bashrc
+source ~/.bashrc`} />
+                  <p className="text-[#8B8B9E] text-sm mt-4">
+                    Now you can press <code className="text-[#FF6B35]">Tab</code> after typing <code className="text-[#FF6B35]">openskill </code> to see available commands.
+                  </p>
+                </StepCard>
               </div>
             </CardContent>
           </Card>
