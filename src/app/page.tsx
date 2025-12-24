@@ -290,7 +290,7 @@ function TerminalDemo() {
   };
 
   return (
-    <div className="terminal-window w-full max-w-2xl mx-auto hover-lift transition-all duration-300">
+    <div className="terminal-window w-full max-w-3xl mx-auto hover-lift transition-all duration-300">
       <div className="terminal-header">
         <div className="terminal-dot bg-[#FF5F56]" />
         <div className="terminal-dot bg-[#FFBD2E]" />
