@@ -152,6 +152,68 @@ function FloatingProviders() {
   );
 }
 
+// Dynamic typing component for hero
+function TypingLoop() {
+  const phrases = [
+    "re-explaining your code review rules",
+    "copy-pasting the same prompt again",
+    "teaching Claude your commit format",
+    "describing your debugging workflow",
+    "repeating your API design standards",
+    "re-typing your test requirements",
+    "explaining your docs style guide",
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    const currentPhrase = phrases[currentIndex];
+
+    if (isPaused) {
+      const pauseTimer = setTimeout(() => {
+        setIsPaused(false);
+        setIsDeleting(true);
+      }, 2000);
+      return () => clearTimeout(pauseTimer);
+    }
+
+    if (isDeleting) {
+      if (displayText === "") {
+        setIsDeleting(false);
+        setCurrentIndex((prev) => (prev + 1) % phrases.length);
+        return;
+      }
+      const deleteTimer = setTimeout(() => {
+        setDisplayText(displayText.slice(0, -1));
+      }, 30);
+      return () => clearTimeout(deleteTimer);
+    }
+
+    if (displayText === currentPhrase) {
+      setIsPaused(true);
+      return;
+    }
+
+    const typeTimer = setTimeout(() => {
+      setDisplayText(currentPhrase.slice(0, displayText.length + 1));
+    }, 50);
+    return () => clearTimeout(typeTimer);
+  }, [displayText, isDeleting, isPaused, currentIndex, phrases]);
+
+  return (
+    <div className="inline-flex items-center gap-2 bg-[#1A1A24] border border-[#2A2A38] rounded-full px-4 py-2 mb-6">
+      <span className="text-[#8B8B9E] text-sm">Stop</span>
+      <span className="text-[#FF6B35] text-sm font-mono min-w-[280px] text-left">
+        {displayText}
+        <span className="inline-block w-0.5 h-4 bg-[#FF6B35] ml-0.5 animate-terminal-blink align-middle" />
+      </span>
+    </div>
+  );
+}
+
 // Terminal Demo Component
 function TerminalDemo() {
   const [currentLine, setCurrentLine] = useState(0);
@@ -660,13 +722,7 @@ export default function Home() {
         <FloatingProviders />
         <div className="max-w-6xl mx-auto">
           <div className={`text-center mb-16 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
-            <Badge
-              variant="outline"
-              className="mb-6 text-[#8B8B9E] border-[#2A2A38] bg-[#1A1A24] hover-wiggle cursor-default"
-            >
-              <SparklesIcon />
-              <span className="ml-2">v0.3.0 - Templates, Sync & More</span>
-            </Badge>
+            <TypingLoop />
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#F5F5F0] mb-6 tracking-tight">
               Claude forgets.<br />
