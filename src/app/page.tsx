@@ -206,7 +206,7 @@ function TypingLoop() {
   return (
     <div className="inline-flex items-center gap-2 bg-[#1A1A24] border border-[#2A2A38] rounded-full px-4 py-2 mb-6">
       <span className="text-[#8B8B9E] text-sm">Stop</span>
-      <span className="text-[#FF6B35] text-sm font-mono min-w-[280px] text-left">
+      <span className="text-[#FF6B35] text-xs md:text-sm font-mono min-w-[280px] text-left">
         {displayText}
         <span className="inline-block w-0.5 h-4 bg-[#FF6B35] ml-0.5 animate-terminal-blink align-middle" />
       </span>
