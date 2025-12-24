@@ -587,29 +587,192 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Use Cases */}
-          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
-              <p className="text-[#FF6B35] font-mono text-sm mb-2">/code-review</p>
-              <p className="text-[#8B8B9E] text-sm">Catch bugs, security issues, and code smells</p>
+        </div>
+      </section>
+
+      {/* How to Use Skills - Step by Step */}
+      <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
+              Get started in 3 steps
+            </h2>
+            <p className="text-[#8B8B9E] max-w-xl mx-auto">
+              From zero to productive in under a minute
+            </p>
+          </div>
+
+          {/* Steps */}
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="relative">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold text-xl">
+                  1
+                </div>
+                <div>
+                  <h3 className="text-[#F5F5F0] font-semibold text-lg">Initialize</h3>
+                  <p className="text-[#8B8B9E] text-sm">Set up OpenSkill in your project</p>
+                </div>
+              </div>
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-dot bg-[#FF5F56]" />
+                  <div className="terminal-dot bg-[#FFBD2E]" />
+                  <div className="terminal-dot bg-[#27CA40]" />
+                </div>
+                <div className="terminal-body text-sm">
+                  <p className="text-[#F5F5F0]">$ openskill init</p>
+                  <p className="text-[#8B8B9E] mt-2">Setting up skills directory...</p>
+                  <p className="text-[#00D9A5]">✓ Created .claude/skills/</p>
+                  <p className="text-[#00D9A5]">✓ Ready to go!</p>
+                </div>
+              </div>
+              {/* Connector line (hidden on mobile) */}
+              <div className="hidden lg:block absolute top-6 left-full w-8 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#2A2A38]" style={{ marginLeft: '-1rem' }} />
             </div>
-            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
-              <p className="text-[#FF6B35] font-mono text-sm mb-2">/commit-message</p>
-              <p className="text-[#8B8B9E] text-sm">Generate clear, conventional commit messages</p>
+
+            {/* Step 2 */}
+            <div className="relative">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold text-xl">
+                  2
+                </div>
+                <div>
+                  <h3 className="text-[#F5F5F0] font-semibold text-lg">Create a Skill</h3>
+                  <p className="text-[#8B8B9E] text-sm">Use AI or a template</p>
+                </div>
+              </div>
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-dot bg-[#FF5F56]" />
+                  <div className="terminal-dot bg-[#FFBD2E]" />
+                  <div className="terminal-dot bg-[#27CA40]" />
+                </div>
+                <div className="terminal-body text-sm">
+                  <p className="text-[#F5F5F0]">$ openskill add &quot;code-review&quot;</p>
+                  <p className="text-[#8B8B9E] mt-2">Generating with AI...</p>
+                  <p className="text-[#00D9A5]">✓ Created code-review skill</p>
+                  <p className="text-[#8B8B9E] mt-1">  4 rules • security focus</p>
+                </div>
+              </div>
+              {/* Connector line */}
+              <div className="hidden lg:block absolute top-6 left-full w-8 h-0.5 bg-gradient-to-r from-[#FF6B35] to-[#2A2A38]" style={{ marginLeft: '-1rem' }} />
             </div>
-            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
-              <p className="text-[#FF6B35] font-mono text-sm mb-2">/api-design</p>
-              <p className="text-[#8B8B9E] text-sm">Design RESTful APIs with best practices</p>
-            </div>
-            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
-              <p className="text-[#FF6B35] font-mono text-sm mb-2">/test-writer</p>
-              <p className="text-[#8B8B9E] text-sm">Generate comprehensive unit tests</p>
+
+            {/* Step 3 */}
+            <div className="relative">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#FF6B35] flex items-center justify-center text-[#0A0A0F] font-bold text-xl">
+                  3
+                </div>
+                <div>
+                  <h3 className="text-[#F5F5F0] font-semibold text-lg">Use It</h3>
+                  <p className="text-[#8B8B9E] text-sm">Invoke in Claude Code</p>
+                </div>
+              </div>
+              <div className="terminal-window">
+                <div className="terminal-header">
+                  <div className="terminal-dot bg-[#FF5F56]" />
+                  <div className="terminal-dot bg-[#FFBD2E]" />
+                  <div className="terminal-dot bg-[#27CA40]" />
+                </div>
+                <div className="terminal-body text-sm">
+                  <p className="text-[#8B8B9E]"># In Claude Code:</p>
+                  <p className="text-[#F5F5F0] mt-2">&gt; /code-review</p>
+                  <p className="text-[#00D9A5] mt-2">Claude now reviews your code</p>
+                  <p className="text-[#00D9A5]">with your custom rules!</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <p className="text-center text-[#8B8B9E] mt-8">
-            Skills live in your project&apos;s <code className="text-[#FF6B35] bg-[#1A1A24] px-2 py-1 rounded">.claude/skills/</code> folder and are automatically available to Claude Code.
-          </p>
+          {/* Popular Skills Examples */}
+          <div className="mt-20">
+            <h3 className="text-xl font-semibold text-[#F5F5F0] text-center mb-8">
+              Popular skills developers use
+            </h3>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
+                      <path d="m9 9 5 12 1.8-5.2L21 14Z" />
+                      <path d="M7.2 2.2 8 5.1" />
+                      <path d="m5.1 8-2.9-.8" />
+                      <path d="M14 4.1 12 6" />
+                      <path d="m6 12-1.9 2" />
+                    </svg>
+                  </div>
+                  <code className="text-[#FF6B35] font-mono text-sm">/code-review</code>
+                </div>
+                <p className="text-[#8B8B9E] text-sm">Security audits, best practices, and performance tips for every PR</p>
+              </div>
+
+              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
+                      <line x1="6" x2="6" y1="3" y2="15" />
+                      <circle cx="18" cy="6" r="3" />
+                      <circle cx="6" cy="18" r="3" />
+                      <path d="M18 9a9 9 0 0 1-9 9" />
+                    </svg>
+                  </div>
+                  <code className="text-[#FF6B35] font-mono text-sm">/commit</code>
+                </div>
+                <p className="text-[#8B8B9E] text-sm">Conventional commits that tell the story of your changes</p>
+              </div>
+
+              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
+                      <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                      <polyline points="14,2 14,8 20,8" />
+                      <line x1="16" x2="8" y1="13" y2="13" />
+                      <line x1="16" x2="8" y1="17" y2="17" />
+                      <line x1="10" x2="8" y1="9" y2="9" />
+                    </svg>
+                  </div>
+                  <code className="text-[#FF6B35] font-mono text-sm">/docs</code>
+                </div>
+                <p className="text-[#8B8B9E] text-sm">Auto-generate READMEs, API docs, and inline comments</p>
+              </div>
+
+              <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-5 hover:border-[#FF6B35] transition-all hover-lift group">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-[#2A2A38] flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#FF6B35] group-hover:text-[#0A0A0F]">
+                      <path d="m9 12 2 2 4-4" />
+                      <path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z" />
+                      <path d="M22 19H2" />
+                    </svg>
+                  </div>
+                  <code className="text-[#FF6B35] font-mono text-sm">/test</code>
+                </div>
+                <p className="text-[#8B8B9E] text-sm">Unit tests with edge cases, mocks, and full coverage</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick tip */}
+          <div className="mt-12 bg-gradient-to-r from-[#FF6B35]/10 to-transparent border border-[#FF6B35]/20 rounded-lg p-6 flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-[#FF6B35]/20 flex items-center justify-center flex-shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-[#F5F5F0] font-medium mb-1">Pro tip</p>
+              <p className="text-[#8B8B9E] text-sm">
+                Skills are stored in <code className="text-[#FF6B35] bg-[#1A1A24] px-1.5 py-0.5 rounded">.claude/skills/</code> as Markdown files.
+                Commit them to Git to share with your team, or use <code className="text-[#FF6B35] bg-[#1A1A24] px-1.5 py-0.5 rounded">openskill sync</code> to back them up.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
