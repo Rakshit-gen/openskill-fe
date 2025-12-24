@@ -74,7 +74,7 @@ export function Navbar() {
             <Link href="/install">
               <Button
                 size="sm"
-                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-medium"
+                className="bg-[#FF6B35] hover:bg-[#FF8555] text-[#0A0A0F] font-medium cursor-pointer transition-all duration-200 cursor-pointer"
               >
                 Get Started
               </Button>

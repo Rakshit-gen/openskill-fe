@@ -196,7 +196,7 @@ export default function InstallPage() {
                     </table>
                   </div>
                   <Button
-                    className="bg-[#FF6B35] cursor-pointer hover:bg-[#FF6B35]/90 text-[#0A0A0F]"
+                    className="bg-[#FF6B35] hover:bg-[#FF8555] text-[#0A0A0F] font-medium cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-[#FF6B35]/20"
                     onClick={() => window.open("https://console.groq.com", "_blank")}
                   >
                     Get Free Groq API Key
@@ -238,13 +238,13 @@ openskill config set api-key`} />
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button
                 variant="outline"
-                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-white hover-scale cursor-pointer"
+                className="bg-white text-[#0A0A0F] border-white/20 hover:bg-[#0A0A0F] hover:text-white hover:border-[#2A2A38] font-medium cursor-pointer transition-all duration-200"
                 onClick={() => window.location.href = "/docs"}
               >
                 Read Documentation
               </Button>
               <Button
-                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] hover-scale cursor-pointer"
+                className="bg-[#FF6B35] hover:bg-[#FF8555] text-[#0A0A0F] font-medium cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-[#FF6B35]/20"
                 onClick={() => window.open("https://github.com/rakshit-gen/openskill", "_blank")}
               >
                 View on GitHub

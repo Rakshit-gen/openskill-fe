@@ -992,7 +992,7 @@ export default function Home() {
             >
               <Button
                 size="lg"
-                className="bg-[#FF6B35] hover:bg-[#FF6B35]/90 text-[#0A0A0F] font-semibold px-8 hover-scale"
+                className="bg-[#FF6B35] hover:bg-[#FF8555] text-[#0A0A0F] font-semibold px-8 cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-[#FF6B35]/20"
               >
                 <GitHubIcon />
                 <span className="ml-2">View on GitHub</span>
@@ -1002,7 +1002,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-[#2A2A38] text-[#F5F5F0] hover:bg-[#1A1A24] hover-scale"
+                className="bg-white text-[#0A0A0F] border-white/20 hover:bg-[#0A0A0F] hover:text-white hover:border-[#2A2A38] font-semibold px-8 cursor-pointer transition-all duration-200"
               >
                 Read the Docs
               </Button>
