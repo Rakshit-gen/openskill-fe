@@ -813,7 +813,7 @@ export default function Home() {
                   </a>
                   <span className="text-[#8B8B9E] text-sm">or</span>
                   <code className="text-[#FF6B35] bg-[#0A0A0F] px-3 py-1.5 rounded-lg text-sm font-mono">
-                  curl -fsSL https://claude.ai/install.sh | bash
+                  curl -fsSL openskill.online/api/install | bash
                   </code>
                 </div>
               </div>
