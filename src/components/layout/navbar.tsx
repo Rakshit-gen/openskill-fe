@@ -12,6 +12,12 @@ const GitHubIcon = () => (
   </svg>
 );
 
+const ClaudeIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.304 3.541h-3.672l6.696 16.918h3.672l-6.696-16.918zm-10.608 0L0 20.459h3.744l1.368-3.6h6.624l1.368 3.6h3.744L10.152 3.541H6.696zm.456 10.62 2.328-6.12 2.328 6.12H7.152z"/>
+  </svg>
+);
+
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/docs", label: "Documentation" },
@@ -47,6 +53,15 @@ export function Navbar() {
             </div>
           </div>
           <div className="flex items-center gap-4">
+            <a
+              href="https://docs.anthropic.com/en/docs/claude-code"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-[#8B8B9E] hover:text-[#FF6B35] transition-colors"
+            >
+              <ClaudeIcon />
+              <span className="hidden sm:inline text-sm">Claude Code</span>
+            </a>
             <a
               href="https://github.com/rakshit-gen/openskill"
               target="_blank"

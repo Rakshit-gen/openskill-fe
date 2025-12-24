@@ -778,7 +778,7 @@ export default function Home() {
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
                   <a
-                    href="https://docs.anthropic.com/en/docs/claude-code"
+                    href="https://claude.com/product/claude-code"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
