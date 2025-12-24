@@ -20,7 +20,8 @@ const ClaudeIcon = () => (
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/docs", label: "Documentation" },
+  { href: "/marketplace", label: "Marketplace" },
+  { href: "/docs", label: "Docs" },
   { href: "/install", label: "Install" },
 ];
 
