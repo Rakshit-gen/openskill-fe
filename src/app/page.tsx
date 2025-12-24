@@ -539,6 +539,80 @@ export default function Home() {
         </div>
       </section>
 
+      {/* What are Skills? - Beginner Section */}
+      <section className="relative z-10 py-24 px-6 border-t border-[#2A2A38]">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 text-[#8B8B9E] border-[#2A2A38] bg-[#1A1A24]">
+              New to Skills?
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F5F0] mb-4">
+              What are Claude Skills?
+            </h2>
+            <p className="text-[#8B8B9E] max-w-2xl mx-auto text-lg">
+              Skills are reusable instructions that teach Claude how to behave in specific situations.
+              Think of them as <span className="text-[#FF6B35]">recipes for AI behavior</span>.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Without Skills */}
+            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                <span className="text-[#8B8B9E] font-medium">Without Skills</span>
+              </div>
+              <div className="space-y-4 text-sm">
+                <div className="bg-[#0A0A0F] rounded p-3">
+                  <p className="text-[#8B8B9E]">You:</p>
+                  <p className="text-[#F5F5F0]">&quot;Review my code and check for security issues, also make sure error handling is good, and follow our team&apos;s coding standards which are...&quot;</p>
+                </div>
+                <p className="text-[#8B8B9E] text-center italic">Repeat every time...</p>
+              </div>
+            </div>
+
+            {/* With Skills */}
+            <div className="bg-[#1A1A24] border border-[#FF6B35]/30 rounded-lg p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-3 h-3 rounded-full bg-[#27CA40]"></div>
+                <span className="text-[#FF6B35] font-medium">With Skills</span>
+              </div>
+              <div className="space-y-4 text-sm">
+                <div className="bg-[#0A0A0F] rounded p-3">
+                  <p className="text-[#8B8B9E]">You:</p>
+                  <p className="text-[#F5F5F0]">&quot;/code-review&quot;</p>
+                </div>
+                <p className="text-[#00D9A5] text-center">Claude already knows what to do!</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Use Cases */}
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
+              <p className="text-[#FF6B35] font-mono text-sm mb-2">/code-review</p>
+              <p className="text-[#8B8B9E] text-sm">Catch bugs, security issues, and code smells</p>
+            </div>
+            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
+              <p className="text-[#FF6B35] font-mono text-sm mb-2">/commit-message</p>
+              <p className="text-[#8B8B9E] text-sm">Generate clear, conventional commit messages</p>
+            </div>
+            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
+              <p className="text-[#FF6B35] font-mono text-sm mb-2">/api-design</p>
+              <p className="text-[#8B8B9E] text-sm">Design RESTful APIs with best practices</p>
+            </div>
+            <div className="bg-[#1A1A24] border border-[#2A2A38] rounded-lg p-4 hover:border-[#FF6B35] transition-colors">
+              <p className="text-[#FF6B35] font-mono text-sm mb-2">/test-writer</p>
+              <p className="text-[#8B8B9E] text-sm">Generate comprehensive unit tests</p>
+            </div>
+          </div>
+
+          <p className="text-center text-[#8B8B9E] mt-8">
+            Skills live in your project&apos;s <code className="text-[#FF6B35] bg-[#1A1A24] px-2 py-1 rounded">.claude/skills/</code> folder and are automatically available to Claude Code.
+          </p>
+        </div>
+      </section>
+
       {/* Provider Showcase */}
       <section className="relative z-10 py-16 px-6 border-t border-[#2A2A38]">
         <div className="max-w-4xl mx-auto">
