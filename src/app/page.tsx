@@ -660,6 +660,24 @@ export default function Home() {
                 how to install
               </a>
             </p>
+
+            {/* Product Hunt Badge */}
+            <div className="mt-8">
+              <a
+                href="https://www.producthunt.com/products/openskill?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-openskill"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block hover:opacity-80 transition-opacity"
+              >
+                <img
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1054115&theme=dark&t=1766653676465"
+                  alt="OpenSkill - Because Claude has short-term memory, but you don't have to | Product Hunt"
+                  width="250"
+                  height="54"
+                  className="mx-auto"
+                />
+              </a>
+            </div>
           </div>
 
           {/* Terminal Demo */}
